@@ -9,10 +9,11 @@ __MySQL 컨테이너를 생성한 상태에서 만들 것__
         mysql:5.7
 
 __Wordpress 컨테이너 생성 및 실행__
-    docker run -d -p 8080:80 \
-        -e WORDPRESS_DB_HOST=host.docker.internal \
-        -e WORDPRESS_DB_NAME=wp \
-        -e WORDPRESS_DB_USER=wp \
-        -e WORDPRESS_DB_PASSWORD=wp \
-    wordpress
 
+    docker run -d -p 8080:80 \
+     --name wordpress \
+     --add-host host.docker.internal:host-gateway \
+     -e WORDPRESS_DB_HOST=host.docker.internal \
+     -e WORDPRESS_DB_NAME=wp \
+     -e WORDPRESS_DB_USER=wp \
+     -e WORDPRESS_DB_PASSWORD=wp wordpress

@@ -5,12 +5,17 @@
 2. <a href = "#b">도커 버전 확인</a>
 3. <a href = "#c">run</a>
 4. <a href = "#d">exec</a>
-5. <a href = "#e"></a>
-6. <a href = "#f"></a>
-7. <a href = "#g"></a>
-8. <a href = "#h"></a>
-9. <a href = "#i"></a>
-10. <a href = "#j"></a>
+5. <a href = "#e">ps</a>
+6. <a href = "#f">stop</a>
+7. <a href = "#g">rm</a>
+8. <a href = "#h">logs</a>
+9. <a href = "#i">images</a>
+10. <a href = "#j">pull</a>
+10. <a href = "#k">rmi</a>
+10. <a href = "#l">network create</a>
+10. <a href = "#m">network connect</a>
+10. <a href = "#n">volume mount(-v)</a>
+10. <a href = "#o"></a>
 
 <br>
 
@@ -109,10 +114,18 @@
     - 호스트의 8080 포트를 컨테이너 내의 80 포트로 매핑합니다. 
     - 따라서 호스트 시스템에서 8080 포트로 접속하면 해당 요청이 컨테이너 내의 80 포트로 전달되며, 컨테이너 내의 웹 애플리케이션에 액세스할 수 있음.
 
+  - ***`--network 옵션`***
+        
+        docker run -d -p 8080:80 \
+            --network=app-network \
+            -e WORDPRESS_DB_HOST=mysql \
+            -e WORDPRESS_DB_NAME=wp \
+            -e WORDPRESS_DB_USER=wp \
+            -e WORDPRESS_DB_PASSWORD=wp \
+            wordpress 
+    - 컨테이너를 실행할 때 연결할 네트워크를 설정한다. 위 예시에선, wordpress컨테이너를 app-network란 네트워크에 연결한다.
+
 <br>
-
-  
-
 
 ## :star: <span id = "d">exec</span>
 
@@ -162,5 +175,150 @@
 
   -  "mycontainer"라는 컨테이너 내에서 대화형으로 Bash 셸을 실행, -it 옵션으로 터미널 상호작용을 가능하게 함.
 
+<br>
+
+## :star: <span id = "e">ps</span>
+
+- process list를 보는 명령어
+
+        docker ps
+    
+ - 옵션 -a :  중지된 컨테이너도 확인함
+
+        docker ps -a
 
 
+<br>
+
+## :star: <span id = "f">stop</span>
+
+- 실행중인 컨테이너를 중지하는 명령어.
+- 실행중인 컨테이너를 하나 또는 여러개 (띄어쓰기) 중지할 수 있음
+
+        docker stop [OPTIONS] CONTAINER [CONTAINER...]
+
+<br>
+
+## :star: <span id = "g">rm</span>
+
+- 종료된 컨테이너를 완전히 제거하는 명령어 
+- 컨테이너를 하나 또는 여러개 (띄어쓰기) 제거할 수 있음
+  
+      docker rm [OPTIONS] CONTAINER [CONTAINER...]
+
+
+    | option | description |
+    | --- | --- |
+    | -f, --force | 실행 중인 컨테이너를 강제로 중지하고 삭제. |
+    | -v, --volumes | 컨테이너와 연결된 볼륨도 함께 삭제. 이 옵션을 사용하지 않으면 컨테이너만 삭제. |
+    | -link | 다른 컨테이너에 대한 링크를 제거. 예를 들어, 컨테이너 A가 컨테이너 B에 대한 링크를 가지고 있는 경우, docker rm --link A:B 명령을 사용하여 이 링크를 제거. |
+
+
+        docker rm -f container_name
+
+        docker rm -v container_name
+        
+        docker rm --link container_A:container_B
+        
+<br>
+
+## :star: <span id = "h">logs</span>
+
+- 컨테이너가 정상적으로 동작하는지 컨테이너의 로그를 확인하는 명령어
+  
+        docker logs [OPTIONS] CONTAINER 
+
+
+
+    | option | description |
+    | --- | --- |
+    | --follow, -f | 로그 출력을 실시간으로 감시. 컨테이너에서 발생하는 새로운 로그 메시지를 지속적으로 표시하며, 컨테이너가 종료될 때까지 계속 실행. |
+    | --tail | 로그의 마지막에서부터 출력할 라인 수를 지정. 기본값은 "all"로 모든 로그를 출력. |
+
+        docker logs -f container_name
+
+        docker logs --tail 20 container_name
+        
+<br>
+
+## :star: <span id = "i">images</span>
+
+- 도커가 다운로드한 이미지 목록을 보는 명령어
+
+        docker images [OPTIONS] [REPOSITORY[:TAG]]
+
+![image](https://github.com/Soobinnni/learning/assets/111328823/17fdb5ea-3b71-47ec-9ea6-4ee384e77982)
+
+        
+<br>
+
+## :star: <span id = "j">pull</span>
+
+- 이미지를 다운로드하는 명령어
+- 예 : docker pull ubuntu:18.04
+  
+        docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+<br>
+
+## :star: <span id = "k">rmi</span>
+
+- 이미지를 삭제
+- images 명령어를 통해 얻는 이미지 목록에서 이미지 ID를 입력하면 삭제
+- 단, 컨테이너가 실행중인 이미지는 삭제되지 않음
+
+        docker rmi [OPTIONS] IMAGE [IMAGE...]
+<br>
+
+## :star: <span id = "l">network create</span>
+
+- 도커 컨테이너끼리 이름으로 통신할 수 있는 가상 네트워크를 만듦
+  
+        docker network create [OPTIONS] NETWORK
+- `docker network create app-network`
+  - app-network 라는 이름으로 wordpress와 mysql이 통신할 네트워크를 만듦
+<br>
+
+## :star: <span id = "m">network connect</span>
+
+- 기존에 생성된 컨테이너에 네트워크를 추가
+
+        docker network connect [OPTIONS] NETWORK CONTAINER
+- `docker network connect app-network mysql`
+  - mysql 컨테이너에 네트워크를 추가x
+- --network 옵션으로 컨테이너를 실행할 때,네트워크를 연결할 수 있음
+  
+        docker run -d -p 8080:80 \
+            --network=app-network \
+            -e WORDPRESS_DB_HOST=mysql \
+            -e WORDPRESS_DB_NAME=wp \
+            -e WORDPRESS_DB_USER=wp \
+            -e WORDPRESS_DB_PASSWORD=wp \
+            wordpress
+<br>
+
+## :star: <span id = "n"><a href="https://github.com/Soobinnni/learning/blob/main/dev/컨테이너/Docker/Volume.md">volume</a> mount(-v)</span>
+- 호스트 및 컨테이너 간의 데이터를 저장하고 공유하기 위해 디렉토리를 연결하는 명령어
+- 도커 컨테이너끼리 이름으로 통신할 수 있는 가상 네트워크를 만듦
+
+- 필요성
+  - 예를 들어, MySQL 컨테이너를 삭제하면, 해당 컨테이너가 가지고 있던 데이터도 함께 삭제 > host path 또는 volume을 생성하여 연결하면 컨테이너 생명 주기와 관련 없이, 데이터를 저장 및 보존할 수 있음 > 새 컨테이너가 생성되면, 해당 볼륨(or host path)을 연결하여 그 데이터를 그대로 가져다 사용할 수 있음
+
+- host path 연결
+  - 실습
+
+    1. mkdir 디렉토리명
+    2. cd 디렉토리명
+    3. pwd 명령어로 해당 디렉토리의 절대 경로 알아낸 뒤 복사
+    4. 호스트 패스(절대경로)와 컨테이너 연결 
+  
+            docker run -d -p 3306:3306 \
+                -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                --network=app-network \
+                --name mysql \
+                -v /home/soobin/host_path_dir:/var/lib/mysql \
+            mysql:5.7
+    
+    5. 새로 생성된 mysql 컨테이너에 데이터를 저장하면 2.의 디렉토리에 데이터가 저장된 것을 확인할 수 있음
+
+        ![image](https://github.com/Soobinnni/learning/assets/111328823/7b76c1fd-aeb2-4b26-bf0c-70bb09248709)
+  
