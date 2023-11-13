@@ -15,7 +15,7 @@
 10. <a href = "#l">network create</a>
 10. <a href = "#m">network connect</a>
 10. <a href = "#n">volume mount(-v)</a>
-10. <a href = "#o"></a>
+10. <a href = "#o">build</a>
 
 <br>
 
@@ -264,7 +264,7 @@
 
 - 이미지를 삭제
 - images 명령어를 통해 얻는 이미지 목록에서 이미지 ID를 입력하면 삭제
-- 단, 컨테이너가 실행중인 이미지는 삭제되지 않음
+- 단, 컨테이너가 실행중인 이미지는 삭제되지 않음(docker stop .. -> docker rm .. 순으로 진행할 수 있음)
 
         docker rmi [OPTIONS] IMAGE [IMAGE...]
 <br>
@@ -321,4 +321,15 @@
     5. 새로 생성된 mysql 컨테이너에 데이터를 저장하면 2.의 디렉토리에 데이터가 저장된 것을 확인할 수 있음
 
         ![image](https://github.com/Soobinnni/learning/assets/111328823/7b76c1fd-aeb2-4b26-bf0c-70bb09248709)
-  
+
+<br>
+
+## :star: <span id = "o">build</span>
+- Dockerfile을 사용하여 이미지를 정의하고 생성할 때.
+- 보다 구조화된 방식으로 이미지를 정의하고 빌드.
+- `PATH`는 Dockerfile이 위치한 경로.
+
+    ```bash
+    docker build [OPTIONS] PATH | URL | -
+    ```
+     
