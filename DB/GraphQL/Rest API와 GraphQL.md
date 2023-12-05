@@ -28,3 +28,7 @@
 
        ![image](https://github.com/graphql/graphql-spec/assets/111328823/ddd407e5-b039-45dd-9aad-95c430804ca3)
        > 전형적인 rest API는 여러 개의 url에서 로딩이 필요하지만 graphql은 single request로 필요한 모든 data를 받을 수 있다.
+
+# Rest API와 GraphQL
+- GraphQL에서 query는 Rest API에서 GET request를 만드는 것과 같다고 볼 수 있음
+- Rest API에 URL variable이 있다면(경로변수), GraphQL에선 argument로 표현
