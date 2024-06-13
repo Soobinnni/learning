@@ -1,4 +1,5 @@
-import reactImg from '../assets/react-core-concepts.png';
+import reactImg from '../../assets/react-core-concepts.png';
+import './Header.css';
 
 // start: header의 내용을 동적으로 수정하기 위함
 const reactDescriptions = ["Fundamental", "Crucial", "Core"];
