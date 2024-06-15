@@ -6,6 +6,9 @@ import TabButton from './components/Tab/TabButton.jsx'
 import TabContent from './components/Tab/TabContent.jsx'
 
 function App() {
+  // topic list
+  let topics = ['Components', 'JSX', 'Props', 'State'];
+
   // selectedTopic
   let [selectedTopic, setSelectedTopic] = useState('');
   function handleSelect(selectedButton) {
@@ -25,7 +28,7 @@ function App() {
           <h2>Core Concepts</h2>
           <ul>
             {
-              [0,1,2,3].map((index) => (
+              topics.map((_, index) => (
                 <CoreConcept key={index} index={index}/>
               ))
             }
@@ -34,10 +37,12 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton isSelected={selectedTopic=='components'} onSelect={() => handleSelect('components')}>Components</TabButton>
-            <TabButton isSelected={selectedTopic=='jsx'} onSelect={() => handleSelect('jsx')}>JSX</TabButton>
-            <TabButton isSelected={selectedTopic=='props'} onSelect={() => handleSelect('props')}>Props</TabButton>
-            <TabButton isSelected={selectedTopic=='state'} onSelect={() => handleSelect('state')}>State</TabButton>
+            {
+              topics.map((topic, index)=>{
+                let lowerTopic = topic.toLowerCase();
+                return <TabButton key={index} isSelected={selectedTopic==lowerTopic} onSelect={() => handleSelect(lowerTopic)}>{topic}</TabButton>
+              })
+            }
           </menu>
           <div id="tab-content">
             {tabContent}
@@ -47,5 +52,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
