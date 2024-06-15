@@ -13,6 +13,12 @@ function App() {
   function handleSelect(selectedButton) {
     setSelectedTopic(selectedButton);
   }
+
+  // tab content
+  let tabContent = <p>Please select a topic.</p>;
+  if(selectedTopic){
+    tabContent=<TabContent selectedTopic={selectedTopic} />;
+  }
   return (
     <div>
       <Header />
@@ -30,21 +36,13 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            {/* 
-              onSelect은 정의된 클릭이벤트가 아니고, 사용자 정의 
-              () => {}는, 전개하면
-               function () => 표현의 익명함수
-            */}
             <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
             <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
             <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
             <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
           <div id="tab-content">
-            {
-              !selectedTopic ? <p>Please select a topic.</p> :
-                <TabContent selectedTopic={selectedTopic} />
-            }
+            {tabContent}
           </div>
         </section>
       </main>
