@@ -5,8 +5,6 @@ import CoreConcept from './components/CoreConcept/CoreConcept.jsx'
 import TabButton from './components/Tab/TabButton.jsx'
 import TabContent from './components/Tab/TabContent.jsx'
 
-import { CORE_CONCEPTS } from './data.js';
-
 function App() {
   // selectedTopic
   let [selectedTopic, setSelectedTopic] = useState('');
@@ -27,8 +25,8 @@ function App() {
           <h2>Core Concepts</h2>
           <ul>
             {
-              CORE_CONCEPTS.map((data, index) => (
-                <CoreConcept key={index} {...data} />
+              [0,1,2,3].map((index) => (
+                <CoreConcept key={index} index={index}/>
               ))
             }
           </ul>
