@@ -1,17 +1,16 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import Header from './components/Header/Header.jsx';
 import CoreConcept from './components/CoreConcept/CoreConcept.jsx'
-import TabButton from './components/TabButton/TabButton.jsx'
-import Content from './components/Content/Content.jsx'
+import TabButton from './components/Tab/TabButton.jsx'
+import TabContent from './components/Tab/TabContent.jsx'
 
 import { CORE_CONCEPTS } from './data.js';
 
 function App() {
-  // let tabContent = 'Please click a button';
-  let [selectedTopic, setSelectedTopic] = useState('components');
-  function handleSelect(selectedButton){
-    // selectedButton -> 'components;, 'jsx', 'props', 'state'
+  // selectedTopic
+  let [selectedTopic, setSelectedTopic] = useState('');
+  function handleSelect(selectedButton) {
     setSelectedTopic(selectedButton);
   }
   return (
@@ -36,13 +35,16 @@ function App() {
               () => {}는, 전개하면
                function () => 표현의 익명함수
             */}
-            <TabButton onSelect={()=>handleSelect('components')}>Components</TabButton>
-            <TabButton onSelect={()=>handleSelect('jsx')}>JSX</TabButton>
-            <TabButton onSelect={()=>handleSelect('props')}>Props</TabButton>
-            <TabButton onSelect={()=>handleSelect('state')}>State</TabButton>
+            <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
+            <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+            <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
+            <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
           <div id="tab-content">
-            <Content selectedTopic={selectedTopic}/>
+            {
+              !selectedTopic ? <p>Please select a topic.</p> :
+                <TabContent selectedTopic={selectedTopic} />
+            }
           </div>
         </section>
       </main>

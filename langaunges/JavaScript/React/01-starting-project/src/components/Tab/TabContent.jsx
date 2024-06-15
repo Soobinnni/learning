@@ -1,11 +1,11 @@
 import { EXAMPLES } from '../../data.js';
 
-export default function Content(props){
+export default function TabContent(props){
     let data = EXAMPLES[props.selectedTopic];
     let title=data.title;
     let description=data.description;
     let code=data.code;
-    
+
     return(
         <>
             <h3>{title}</h3>
