@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import TabContent from "./Tab/TabContent";
 import TabButton from './Tab/TabButton.jsx';
+import Section from './Section.jsx';
 
 export default function Examples({ topics }) {
     // selectedTopic
@@ -17,19 +18,18 @@ export default function Examples({ topics }) {
     }
     
     return (
-        <section id="examples">
-            <h2>Examples</h2>
+        <Section title="Examples" id="examples" className="examples">
             <menu>
                 {
                     topics.map((topic, index) => {
                         let lowerTopic = topic.toLowerCase();
-                        return <TabButton key={index} isSelected={selectedTopic == lowerTopic} onSelect={() => handleSelect(lowerTopic)}>{topic}</TabButton>
+                        return <TabButton key={index} isSelected={selectedTopic == lowerTopic} onClick={() => handleSelect(lowerTopic)}>{topic}</TabButton>
                     })
                 }
             </menu>
             <div id="tab-content">
                 {tabContent}
             </div>
-        </section>
+        </Section>
     )
 }
