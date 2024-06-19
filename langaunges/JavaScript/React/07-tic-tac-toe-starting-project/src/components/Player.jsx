@@ -12,7 +12,8 @@ export default function Player({ name, symbol }) {
                 {isEditing && nameInput}
                 <span className="player-symbol">{symbol}</span>
             </span>
-            <button onClick={() => { setIsEditing(!isEditing) }}>{isEditing ? 'Save' : 'Edit'}</button>
+            {/* <button onClick={() => { setIsEditing((editing)=>{ return !editing}) }}>{isEditing ? 'Save' : 'Edit'}</button> */}
+            <button onClick={() => { setIsEditing(editing=>!editing) }}>{isEditing ? 'Save' : 'Edit'}</button>
         </li>
     )
 }
