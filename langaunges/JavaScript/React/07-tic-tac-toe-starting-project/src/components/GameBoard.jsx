@@ -6,14 +6,15 @@ const initalGameBoard = [
     [null, null, null],
 ];
 
-export default function GameBoard() {
+export default function GameBoard({onSelectSquere, activePlayerSymbol}) {
     const [gameBoard, setGameBoard] = useState(initalGameBoard);
     function handleSelectSquare(rowIndex, colIndex){
         setGameBoard(preGameBoard=>{
             let copyPreGameBoard = [...preGameBoard.map(innerArray=>[...innerArray])];
-            copyPreGameBoard[rowIndex][colIndex] = 'X'; // It will be changed
+            copyPreGameBoard[rowIndex][colIndex] = activePlayerSymbol; // It will be changed
             return copyPreGameBoard;
-        })
+        });
+        onSelectSquere(); // 상위 컴포넌트 함수 호출.
     }
     return (
         <ol id="game-board">
