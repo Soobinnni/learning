@@ -20,12 +20,8 @@ export default function Examples({ topics }) {
 
     return (
         <Section title="Examples" id="examples" className="examples">
-            {/* <menu>
-            </menu>
-            <div id="tab-content">
-                {tabContent}
-            </div> */}
             <Tabs
+                buttonsContainer="menu"
                 buttons={
                     topics.map((topic, index) => {
                         let lowerTopic = topic.toLowerCase();
