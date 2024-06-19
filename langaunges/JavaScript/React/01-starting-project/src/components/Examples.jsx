@@ -21,7 +21,6 @@ export default function Examples({ topics }) {
     return (
         <Section title="Examples" id="examples" className="examples">
             <Tabs
-                ButtonContainer="menu"
                 buttons={
                     topics.map((topic, index) => {
                         let lowerTopic = topic.toLowerCase();
