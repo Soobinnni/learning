@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { Children, useState } from 'react';
 
 import TabContent from "./Tab/TabContent";
 import TabButton from './Tab/TabButton.jsx';
 import Section from './Section.jsx';
+import Tabs from '../Tabs.jsx';
 
 export default function Examples({ topics }) {
     // selectedTopic
@@ -16,20 +17,22 @@ export default function Examples({ topics }) {
     if (selectedTopic) {
         tabContent = <TabContent selectedTopic={selectedTopic} />;
     }
-    
+
     return (
         <Section title="Examples" id="examples" className="examples">
-            <menu>
-                {
+            {/* <menu>
+            </menu>
+            <div id="tab-content">
+                {tabContent}
+            </div> */}
+            <Tabs
+                buttons={
                     topics.map((topic, index) => {
                         let lowerTopic = topic.toLowerCase();
                         return <TabButton key={index} isSelected={selectedTopic == lowerTopic} onClick={() => handleSelect(lowerTopic)}>{topic}</TabButton>
                     })
                 }
-            </menu>
-            <div id="tab-content">
-                {tabContent}
-            </div>
+            >{tabContent}</Tabs>
         </Section>
     )
 }
