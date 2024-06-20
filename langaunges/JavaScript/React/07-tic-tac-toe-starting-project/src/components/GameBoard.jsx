@@ -1,20 +1,19 @@
-import {useState} from 'react';
-
 const initalGameBoard = [
     [null, null, null],
     [null, null, null],
     [null, null, null],
-];
+  ];
+export default function GameBoard({onSelectSquare, turns}) {
+    let gameBoard=initalGameBoard;
+    for(const turn of turns){
+        // 빈 배열일 경우, 실행되지 않음
+        // const row = turn.square.row;
+        // const col = turn.square.col;
+        // const player=turn.player;
+        const {square, player} = turn;
+        const {row, col} = square;
 
-export default function GameBoard({onSelectSquere, activePlayerSymbol}) {
-    const [gameBoard, setGameBoard] = useState(initalGameBoard);
-    function handleSelectSquare(rowIndex, colIndex){
-        setGameBoard(preGameBoard=>{
-            let copyPreGameBoard = [...preGameBoard.map(innerArray=>[...innerArray])];
-            copyPreGameBoard[rowIndex][colIndex] = activePlayerSymbol; // It will be changed
-            return copyPreGameBoard;
-        });
-        onSelectSquere(); // 상위 컴포넌트 함수 호출.
+        gameBoard[row][col]=player;
     }
     return (
         <ol id="game-board">
@@ -25,9 +24,7 @@ export default function GameBoard({onSelectSquere, activePlayerSymbol}) {
                             {
                                 row.map((playerSymbol, colIndex) => (
                                     <li key={colIndex}>
-                                        <button
-                                            onClick={()=>handleSelectSquare(rowIndex, colIndex)}
-                                        >{playerSymbol}</button>
+                                        <button onClick={()=>{onSelectSquare(rowIndex, colIndex)}}>{playerSymbol}</button>
                                     </li>
                                 ))
                             }
