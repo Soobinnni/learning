@@ -19,7 +19,6 @@ function App() {
         } else {
           curActivePlayer='X';
         }
-        // 최신 턴이 0번째 인덱스에 오도록 스프레드 연산자 이용
         const updatedTurns = [
           {square: {row:rowIndex, col:colIndex}, player: curActivePlayer}
           ,...preTurns
@@ -36,7 +35,7 @@ function App() {
         </ol>
         <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns}/>
       </div>
-      <Log/>
+      <Log turns = {gameTurns}/>
     </main>
   )
 }
