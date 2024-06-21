@@ -1,6 +1,7 @@
 import Player from "./components/Player.jsx"
 import GameBoard from "./components/GameBoard.jsx"
 import Log from "./components/Log.jsx"
+import GameOver from "./components/GameOver.jsx"
 
 import { useState } from "react"
 
@@ -32,11 +33,12 @@ function App() {
 
   const activePlayer = deriveActivePlayer(gameTurns);
 
-  // GameBoad.jsx component에서 가져옴(승리 조건 확인을 위해 board를 살펴볼 필요가 있으므로)
-  let gameBoard = initalGameBoard;
+  // 아래는 참조 때문에 restart시 오류를 낼 수 있기 때문에 스프레드연산자로 깊은 복사를 해야함
+  // let gameBoard = initalGameBoard;
+  let gameBoard = [...initalGameBoard.map(array=>[...array])];
   let winner = null;
+  const hasDraw = gameTurns.length===9 && !winner; // 9개의 판이 모두 채워지면 끝(무승부)
 
-  // gameBoard가 저장해 놓은 turns에 의해서 update
   for(const turn of gameTurns){
       const {square, player} = turn;
       const {row, col} = square;
@@ -68,6 +70,10 @@ function App() {
     }
   }
 
+  function handleRestart(){
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -75,7 +81,7 @@ function App() {
           <Player initialName="Player1" symbol="X" isActive={activePlayer === "X"}/>
           <Player initialName="Player2" symbol="O" isActive={activePlayer === "O"} />
         </ol>
-        { winner && <p>You won, {winner}!</p>}
+        { (winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard}/>
       </div>
       <Log turns = {gameTurns}/>
