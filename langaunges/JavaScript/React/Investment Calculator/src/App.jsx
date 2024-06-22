@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 function App() {
   const [userInput, setUserInput] = useState({
-    initalInvestment: 10000,
+    initialInvestment: 10000,
     annualInvestment: 1200,
     expectedReturn: 6,
     duration: 10
@@ -15,14 +15,14 @@ function App() {
     setUserInput(preUserInput => {
       return {
         ...preUserInput,
-        [inputIdentifier]: newValue,
+        [inputIdentifier]: +newValue,
       };
     });
   }
   return (
     <>
       <UserInput userInputInfo={USER_INPUT_INFO} userInput={userInput} onChangeInputValue={handleChange} />
-      <Results />
+      <Results input={userInput}/>
     </>
   )
 }

@@ -1,7 +1,7 @@
 export const USER_INPUT_INFO = [
     {
       title: "Initial Investment",
-      identifier: "initalInvestment"
+      identifier: "initialInvestment"
     },
     {
       title: "Annual Investment",
