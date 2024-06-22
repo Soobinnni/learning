@@ -1,6 +1,8 @@
+import UserInput from "./components/UserInput.jsx"
+import { USER_INPUT_INFO } from "./const/userInfo.js"
 function App() {
   return (
-    <h1>React Investment Calculator</h1>
+      <UserInput userInputInfo={USER_INPUT_INFO} />
   )
 }
 
