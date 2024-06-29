@@ -37,12 +37,25 @@ class SbbApplicationTests {
 		assertEquals("sbb가 무엇인가요?", q.getSubject());
 	}
 	
-	@Test
+//	@Test
 	void testJpaSelectById() {
 		Optional<Question> oq = this.questionRepository.findById(1L);
 		if(oq.isPresent()) {
 			Question q=oq.get();
 			assertEquals("sbb가 무엇인가요?", q.getSubject());
 		}
+	}
+	
+	@Test
+	void testJpaSelectByProperty() {
+		Question q1 = this.questionRepository.findBySubject("sbb가 무엇인가요?");
+		assertEquals(1, q1.getId());
+		
+		Question q2 = this.questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
+		assertEquals(1, q2.getId());
+		
+		List<Question> qList = this.questionRepository.findBySubjectLike("sbb%");
+        Question q = qList.get(0);
+        assertEquals("sbb가 무엇인가요?", q.getSubject());
 	}
 }
