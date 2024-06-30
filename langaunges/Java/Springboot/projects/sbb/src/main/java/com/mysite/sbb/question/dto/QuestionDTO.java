@@ -9,7 +9,7 @@ import lombok.*;
 
 @Getter @Setter @ToString
 
-@AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class QuestionDTO {
     private Long id;
     private String subject;

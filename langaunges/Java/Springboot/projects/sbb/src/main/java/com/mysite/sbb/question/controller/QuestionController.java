@@ -31,6 +31,6 @@ public class QuestionController {
     public String detail(Model model, @PathVariable("id") Long id) throws Exception{
         QuestionDTO questionDTO=questionService.getQuestion(Long.valueOf(id));
         model.addAttribute("question", questionDTO);
-        return "/question/detail";
+        return "question/detail";
     }
 }

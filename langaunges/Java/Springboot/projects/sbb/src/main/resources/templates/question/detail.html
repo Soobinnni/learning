@@ -1,12 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Detail</title>
-</head>
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header (pageTitle='Question Detail')"></head>
 <body>
     <h1 th:text="${question.subject}"></h1>
     <div th:text="${question.content}"></div>
@@ -21,5 +15,6 @@
         <input type="text" id="answer" name="content" placeholder="내용을 입력하세요."/>
         <input type="submit" value="등록">
     </form>
+    <footer th:replace="/fragments/footer.html :: footer"></footer>
 </body>
 </html>
