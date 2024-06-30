@@ -1,7 +1,5 @@
 package com.mysite.sbb.question.service;
 
-import com.mysite.sbb.answer.dto.AnswerDTO;
-import com.mysite.sbb.answer.entity.Answer;
 import com.mysite.sbb.exception.DataNotFoundException;
 import com.mysite.sbb.question.dto.QuestionDTO;
 import com.mysite.sbb.question.entity.Question;
@@ -38,9 +36,5 @@ public class QuestionServiceImpl implements QuestionService{
         } else{
             throw new DataNotFoundException("question not found");
         }
-    }
-
-    private AnswerDTO converToAnswerDTO(Answer answer){
-        return modelMapper.map(answer, AnswerDTO.class);
     }
 }

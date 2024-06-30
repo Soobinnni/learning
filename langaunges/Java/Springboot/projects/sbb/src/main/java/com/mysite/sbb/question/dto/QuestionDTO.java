@@ -5,15 +5,11 @@ import java.util.List;
 
 import com.mysite.sbb.answer.dto.AnswerDTO;
 
-import com.mysite.sbb.answer.entity.Answer;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
+import lombok.*;
 
-@Getter @Setter 
-@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @ToString
+
+@AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
 public class QuestionDTO {
     private Long id;
     private String subject;

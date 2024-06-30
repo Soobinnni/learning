@@ -16,7 +16,7 @@
     <div th:each="answer: ${question.answerList}" th:text="${answer.content}"></div>
     <br/>
     <hr/>
-    <form th:action="@{|/answer|}" method="post">
+    <form th:action="@{|/answer/${question.id}|}" method="post">
         <label for="answer"><b>새 답변 등록</b></label>
         <input type="text" id="answer" name="content" placeholder="내용을 입력하세요."/>
         <input type="submit" value="등록">
