@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.mysite.sbb.entity.Answer;
 import com.mysite.sbb.repository.AnswerRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -95,5 +96,21 @@ class SbbApplicationTests {
 		Answer a = new Answer("네 자동으로 생성됩니다.", q);
 
 		this.answerRepository.save(a);
+	}
+
+	@Test
+	@Transactional // 설정 이유 -> https://www.notion.so/soovinn/Entity-41c0bdd48f9e437d9647c6e642cd476f?pvs=4#4ed3f9fbae834acd8817ef684c7e5fd2
+	void testAnswerFindById() {
+		Optional<Answer> oa = this.answerRepository.findById(1l);
+		assertTrue(oa.isPresent());
+		Answer a = oa.get();
+
+		Question q = a.getQuestion();
+		// 답변 Entity를 통해 Question Entity 조회
+		assertEquals(2, q.getId());
+		// Question Entity Entity를 통해 답변 Entity 조회
+		List<Answer> al = q.getAnswerList();
+		assertEquals(1, al.size());
+		assertEquals("네 자동으로 생성됩니다.", al.get(0).getContent());
 	}
 }
