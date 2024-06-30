@@ -23,7 +23,7 @@ class SbbApplicationTests {
 	@Autowired
 	private AnswerRepository answerRepository;
 
-//	@Test
+	@Test
 	void testJpa() {
 		String subject1 = "sbb가 무엇인가요?";
 		String content1 = "sbb에 대해서 알고 싶습니다.";
@@ -37,7 +37,7 @@ class SbbApplicationTests {
 		this.questionRepository.save(q2); // 두번째 질문 저장
 	}
 
-//	@Test
+	@Test
 	void testJpaSize() {
 		List<Question> all = this.questionRepository.findAll();
 		assertEquals(6, all.size());
@@ -46,7 +46,7 @@ class SbbApplicationTests {
 		assertEquals("sbb가 무엇인가요?", q.getSubject());
 	}
 	
-//	@Test
+	@Test
 	void testJpaSelectById() {
 		Optional<Question> oq = this.questionRepository.findById(1L);
 		if(oq.isPresent()) {
@@ -55,7 +55,7 @@ class SbbApplicationTests {
 		}
 	}
 	
-//	@Test
+	@Test
 	void testJpaSelectByProperty() {
 		Question q1 = this.questionRepository.findBySubject("sbb가 무엇인가요?");
 		assertEquals(1, q1.getId());
@@ -68,7 +68,7 @@ class SbbApplicationTests {
         assertEquals("sbb가 무엇인가요?", q.getSubject());
 	}
 	
-//	@Test
+	@Test
 	void testJpaUpdateQuestion() {
 		Optional<Question> oq = this.questionRepository.findById(1L);
 		assertTrue(oq.isPresent());
