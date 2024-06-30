@@ -13,9 +13,7 @@ import lombok.Setter;
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
 public class QuestionDTO {
-	private Long id;
     private String subject;
     private String content;
     private LocalDateTime createDate;
-    private List<Answer> answerList; 
 }
