@@ -10,5 +10,16 @@
 <body>
     <h1 th:text="${question.subject}"></h1>
     <div th:text="${question.content}"></div>
+    <hr/>
+
+    <b th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></b>
+    <div th:each="answer: ${question.answerList}" th:text="${answer.content}"></div>
+    <br/>
+    <hr/>
+    <form th:action="@{|/answer|}" method="post">
+        <label for="answer"><b>새 답변 등록</b></label>
+        <input type="text" id="answer" name="content" placeholder="내용을 입력하세요."/>
+        <input type="submit" value="등록">
+    </form>
 </body>
 </html>
