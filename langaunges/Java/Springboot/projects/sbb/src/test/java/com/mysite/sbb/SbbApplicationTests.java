@@ -6,15 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
-import com.mysite.sbb.entity.Answer;
-import com.mysite.sbb.repository.AnswerRepository;
+import com.mysite.sbb.answer.entity.Answer;
+import com.mysite.sbb.answer.repository.AnswerRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mysite.sbb.entity.Question;
-import com.mysite.sbb.repository.QuestionRepository;
+import com.mysite.sbb.question.entity.Question;
+import com.mysite.sbb.question.repository.QuestionRepository;
 
 @SpringBootTest
 class SbbApplicationTests {

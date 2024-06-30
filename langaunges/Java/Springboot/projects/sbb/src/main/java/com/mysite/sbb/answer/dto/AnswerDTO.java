@@ -1,8 +1,8 @@
-package com.mysite.sbb.dto;
+package com.mysite.sbb.answer.dto;
 
 import java.time.LocalDateTime;
 
-import com.mysite.sbb.entity.Question;
+import com.mysite.sbb.question.entity.Question;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

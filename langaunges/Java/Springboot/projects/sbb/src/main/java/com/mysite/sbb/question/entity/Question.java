@@ -1,8 +1,9 @@
-package com.mysite.sbb.entity;
+package com.mysite.sbb.question.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.mysite.sbb.answer.entity.Answer;
 import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.CascadeType;
@@ -65,7 +66,7 @@ public class Question {
     private LocalDateTime createDate;
     
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) 
-    private List<Answer> answerList; 
+    private List<Answer> answerList;
     
     
 
