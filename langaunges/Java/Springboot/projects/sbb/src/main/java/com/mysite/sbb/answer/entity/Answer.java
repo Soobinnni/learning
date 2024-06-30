@@ -3,19 +3,15 @@ package com.mysite.sbb.answer.entity;
 import java.time.LocalDateTime;
 
 import com.mysite.sbb.question.entity.Question;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "answer")
 public class Answer {
     @Id
@@ -26,6 +22,7 @@ public class Answer {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @CreatedDate
     private LocalDateTime createDate;
 
     @NonNull

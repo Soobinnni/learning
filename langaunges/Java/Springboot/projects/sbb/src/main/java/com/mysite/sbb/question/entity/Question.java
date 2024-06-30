@@ -4,26 +4,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.mysite.sbb.answer.entity.Answer;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 //import lombok.Setter;
 
 @Getter //@Setter
 @AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
 @Entity // Entity 클래스 선언
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "question")
 public class Question {
 	/* 일반적으로 엔티티를 만들 때에는 Setter 메서드를 사용하지 않고, 
