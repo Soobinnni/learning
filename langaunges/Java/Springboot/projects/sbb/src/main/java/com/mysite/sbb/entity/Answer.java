@@ -10,12 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
 @Entity
 @Table(name = "answer")
 public class Answer {
@@ -23,11 +21,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private LocalDateTime createDate; 
+    private LocalDateTime createDate;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;  // 질문 엔티티를 참조하기 위해 question 속성을 추가

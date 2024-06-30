@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
+import com.mysite.sbb.entity.Answer;
+import com.mysite.sbb.repository.AnswerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +19,8 @@ import com.mysite.sbb.repository.QuestionRepository;
 class SbbApplicationTests {
 	@Autowired
 	private QuestionRepository questionRepository;
+	@Autowired
+	private AnswerRepository answerRepository;
 
 //	@Test
 	void testJpa() {
@@ -80,5 +84,16 @@ class SbbApplicationTests {
 		Question q = oq.get();
 		this.questionRepository.delete(q);
 		assertEquals(1, this.questionRepository.count());
+	}
+
+	@Test
+	void testCreateAnswer(){
+		Optional<Question> oq = this.questionRepository.findById(2l);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+
+		Answer a = new Answer("네 자동으로 생성됩니다.", q);
+
+		this.answerRepository.save(a);
 	}
 }
