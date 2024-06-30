@@ -1,11 +1,14 @@
 package com.mysite.sbb.question.controller;
 
 import com.mysite.sbb.question.dto.QuestionDTO;
+import com.mysite.sbb.question.dto.QuestionForm;
 import com.mysite.sbb.question.entity.Question;
 import com.mysite.sbb.question.service.QuestionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,16 +36,19 @@ public class QuestionController {
     }
 
     @GetMapping("/register")
-    public String registerForm() {
+    public String registerForm(QuestionForm questionForm) {
         return "question/register";
     }
 
     @PostMapping("/register")
     public String register(
-            @ModelAttribute QuestionDTO questionDTO
+            @Valid QuestionForm questionForm,
+            BindingResult bindingResult
     ) throws Exception{
-        System.out.println(questionDTO.toString());
-        questionService.create(questionDTO);
+        if (bindingResult.hasErrors()) {
+            return "question/register";
+        }
+        this.questionService.create(questionForm);
         return "redirect:/question/list";
     }
 }

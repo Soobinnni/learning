@@ -2,6 +2,7 @@ package com.mysite.sbb.question.service;
 
 import com.mysite.sbb.exception.DataNotFoundException;
 import com.mysite.sbb.question.dto.QuestionDTO;
+import com.mysite.sbb.question.dto.QuestionForm;
 import com.mysite.sbb.question.entity.Question;
 import com.mysite.sbb.question.repository.QuestionRepository;
 import jakarta.transaction.Transactional;
@@ -39,10 +40,10 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public void create(QuestionDTO questionDTO) throws Exception {
+    public void create(QuestionForm questionForm) throws Exception {
         this.questionRepository.save(new Question(
-                questionDTO.getSubject(),
-                questionDTO.getContent()
+                questionForm.getSubject(),
+                questionForm.getContent()
         ));
     }
 }
