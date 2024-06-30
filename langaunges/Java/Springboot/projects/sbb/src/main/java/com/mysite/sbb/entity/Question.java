@@ -1,4 +1,4 @@
-package com.mysite.sbb;
+package com.mysite.sbb.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,4 +66,16 @@ public class Question {
     
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) 
     private List<Answer> answerList; 
+    
+    
+
+    public void updateSubject(String newSubject) {
+        if (newSubject == null || newSubject.trim().isEmpty()) {
+            throw new IllegalArgumentException("Subject cannot be null or empty");
+        }
+        if (newSubject.equals(this.subject)) {
+            throw new IllegalArgumentException("New subject must be different from the current subject");
+        }
+        this.subject = newSubject;
+    }
 }

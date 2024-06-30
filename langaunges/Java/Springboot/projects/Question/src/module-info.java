@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author xpsxm
- *
- */
-module Question {
-}
