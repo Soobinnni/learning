@@ -8,4 +8,5 @@ import java.util.List;
 public interface QuestionService {
     public List<Question> getList() throws Exception;
     public QuestionDTO getQuestion(Long id) throws Exception;
+    public void create(QuestionDTO questionDTO) throws Exception;
 }

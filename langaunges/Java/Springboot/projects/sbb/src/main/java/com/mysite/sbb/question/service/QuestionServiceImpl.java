@@ -37,4 +37,12 @@ public class QuestionServiceImpl implements QuestionService{
             throw new DataNotFoundException("question not found");
         }
     }
+
+    @Override
+    public void create(QuestionDTO questionDTO) throws Exception {
+        this.questionRepository.save(new Question(
+                questionDTO.getSubject(),
+                questionDTO.getContent()
+        ));
+    }
 }
