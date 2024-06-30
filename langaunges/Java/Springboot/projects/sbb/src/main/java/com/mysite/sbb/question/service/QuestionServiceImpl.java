@@ -1,15 +1,19 @@
 package com.mysite.sbb.question.service;
 
+import com.mysite.sbb.answer.dto.AnswerDTO;
+import com.mysite.sbb.answer.entity.Answer;
 import com.mysite.sbb.exception.DataNotFoundException;
 import com.mysite.sbb.question.dto.QuestionDTO;
 import com.mysite.sbb.question.entity.Question;
 import com.mysite.sbb.question.repository.QuestionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,13 +27,20 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional
     public QuestionDTO getQuestion(Long id) throws Exception {
         Optional<Question> question=this.questionRepository.findById(id);
         if(question.isPresent()){
-           QuestionDTO questionDTO=modelMapper.map(question.get(), QuestionDTO.class);
-           return questionDTO;
+            Question questionEntity = question.get();
+
+           QuestionDTO questionDTO=modelMapper.map(questionEntity, QuestionDTO.class);
+            return questionDTO;
         } else{
             throw new DataNotFoundException("question not found");
         }
+    }
+
+    private AnswerDTO converToAnswerDTO(Answer answer){
+        return modelMapper.map(answer, AnswerDTO.class);
     }
 }

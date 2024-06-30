@@ -2,6 +2,7 @@ package com.mysite.sbb.answer.dto;
 
 import java.time.LocalDateTime;
 
+import com.mysite.sbb.question.dto.QuestionDTO;
 import com.mysite.sbb.question.entity.Question;
 
 import lombok.AllArgsConstructor;
@@ -15,5 +16,5 @@ public class AnswerDTO {
 	private Long id;
     private String content;
     private LocalDateTime createDate; 
-    private Question question;
+    private QuestionDTO question;
 }
