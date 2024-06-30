@@ -1,5 +1,6 @@
 package com.mysite.sbb.question.controller;
 
+import com.mysite.sbb.answer.dto.AnswerForm;
 import com.mysite.sbb.question.dto.QuestionDTO;
 import com.mysite.sbb.question.dto.QuestionForm;
 import com.mysite.sbb.question.entity.Question;
@@ -29,7 +30,11 @@ public class QuestionController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id) throws Exception{
+    public String detail(
+            Model model,
+            @PathVariable("id") Long id,
+            AnswerForm answerForm
+            ) throws Exception{
         QuestionDTO questionDTO=questionService.getQuestion(Long.valueOf(id));
         model.addAttribute("question", questionDTO);
         return "question/detail";
