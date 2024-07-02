@@ -60,7 +60,7 @@ public class Question {
     @CreatedDate
     private LocalDateTime createDate;
     
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Answer> answerList;
     
     

@@ -26,7 +26,7 @@ public class Answer {
     private LocalDateTime createDate;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;  // 질문 엔티티를 참조하기 위해 question 속성을 추가
 }
