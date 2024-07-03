@@ -10,6 +10,7 @@ export default function NewTask({ onAdd }) {
     }
 
     function handleClick() {
+        if(enteredTask.trim().length===0) return;
         setEnteredTask('');
         // props drilling으로 전달된 함수
         onAdd(enteredTask);
