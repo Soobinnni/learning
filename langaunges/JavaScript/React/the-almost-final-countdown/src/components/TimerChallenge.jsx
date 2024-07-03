@@ -5,43 +5,35 @@ export default function TimerChallenge({ title, targetTime }) {
     const timer = useRef();
     const dialog = useRef();
 
-    // 시간이 얼마나 남았는 지, 나머지 시간을 상태변수로 관리.
-    const [timeRemaining, setTimeRemaining] = useState(targetTime * 1000);
+    const [remainingTime, setRemainingTime] = useState(targetTime * 1000);
 
-    // 시작되었는지, 종료되었는지 boolean 
-    const timerIsActive = timeRemaining > 0 && timeRemaining < targetTime * 1000;
+    const timerIsActive = remainingTime > 0 && remainingTime < targetTime * 1000;
 
-    if (timeRemaining <= 0) {
-        // 시간이 다 되어 종료
+    if (remainingTime <= 0) {
         clearInterval(timer.current);
-        // setTimeRemaining(targetTime * 1000); remaining time이 다시 target time이 되어 원하는 결과가 나오지 않음
         dialog.current.open();
     }
 
-    // 남은 시간을 관리하기 위해 setTimeout -> setInterval함수로 변경
     function handleStart() {
         timer.current =
             setInterval(() => {
-                setTimeRemaining(prevTimeRemaining => prevTimeRemaining - 10);
+                setRemainingTime(prevRemainingTime => prevRemainingTime - 10);
             }, 10);
     }
     function handleStop() {
-        // 수동으로 멈췄을 때.
         clearInterval(timer.current);
-
-        // TODO: 승리 모달이 띄워지게 하기.
         dialog.current.open();
     }
 
     function handleReset () {
-        setTimeRemaining(targetTime * 1000);
+        setRemainingTime(targetTime * 1000);
     }
     return (
         <>
             <ResultModal
                 targetTime={targetTime}
                 // result="lost"
-                remainingTime = {timeRemaining}
+                remainingTime = {remainingTime}
                 ref = {dialog}
                 onReset = {handleReset} 
                 />
