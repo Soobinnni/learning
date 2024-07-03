@@ -17,7 +17,9 @@ const ResultModal = forwardRef(function ResultModal({remainingTime, targetTime, 
     return (
         <dialog 
             className="result-modal" 
-            ref = {dialog}>
+            ref = {dialog}
+            onClose={onReset}
+            >
             {
                 userLost &&
                 <h2>Your lost</h2>
