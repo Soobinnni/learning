@@ -2,26 +2,35 @@ import { useRef, useState } from "react";
 import ResultModal from './ResultModal.jsx';
 
 export default function TimerChallenge({ title, targetTime }) {
-    /*
-     * 도전을 시작하면, 흐른 시간을 유추해서 멈춤을 누르는 컴포넌트
-     */
-
     const timer = useRef();
     const dialog = useRef();
 
-    const [timeStarted, setTimeStarted] = useState(false);
-    const [timeExpired, setTimeExpired] = useState(false);
+    // 시간이 얼마나 남았는 지, 나머지 시간을 상태변수로 관리.
+    const [timeRemaining, setTimeRemaining] = useState(targetTime * 1000);
 
+    // 시작되었는지, 종료되었는지 boolean 
+    const timerIsActive = timeRemaining > 0 && timeRemaining < targetTime * 1000;
+
+    if (timeRemaining <= 0) {
+        // 시간이 다 되어 종료
+        clearInterval(timer.current);
+        setTimeRemaining(targetTime * 1000);
+        dialog.current.open();
+    }
+
+    // 남은 시간을 관리하기 위해 setTimeout -> setInterval함수로 변경
     function handleStart() {
         timer.current =
-            setTimeout(() => {
-                setTimeExpired(true);
-                dialog.current.open();
-            }, targetTime * 1000);
-        setTimeStarted(true);
+            setInterval(() => {
+                setTimeRemaining(prevTimeRemaining => prevTimeRemaining - 10);
+            }, 10);
     }
     function handleStop() {
-        clearTimeout(timer.current);
+        // 수동으로 멈췄을 때.
+        clearInterval(timer.current);
+
+        // TODO: 승리 모달이 띄워지게 하기.
+        dialog.current.open();
     }
     return (
         <>
@@ -37,14 +46,14 @@ export default function TimerChallenge({ title, targetTime }) {
                 </p>
                 <p>
                     <button
-                        onClick={timeStarted ? handleStop : handleStart}
+                        onClick={timerIsActive ? handleStop : handleStart}
                     >
-                        {timeStarted ? 'Stop' : 'Start'} Challenge
+                        {timerIsActive ? 'Stop' : 'Start'} Challenge
                     </button>
                 </p>
-                <p className={timeStarted ? 'active' : undefined}>
+                <p className={timerIsActive ? 'active' : undefined}>
                     {
-                        timeStarted ?
+                        timerIsActive ?
                             'Time is running...' :
                             'Timer inactive'
                     }
