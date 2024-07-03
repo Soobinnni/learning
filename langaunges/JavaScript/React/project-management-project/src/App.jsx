@@ -8,8 +8,28 @@ import { useState } from "react";
 function App() {
   const [projectsState, setProjectsState] = useState({
     selectedProjectId: undefined,
-    projects: []
+    projects: [],
+    tasks: []
   });
+
+  function handleAddTask(text){
+    setProjectsState(preProjectsState => {
+      const taskId =  Math.random();
+      const newTask = {
+        id: taskId,
+        text: text,
+        projectId: preProjectsState.selectedProjectId
+      }
+      return {
+        ...preProjectsState,
+        tasks: [newTask, ...preProjectsState.tasks]
+      }
+    });    
+  }
+
+  function handleDeleteTask(){
+    
+  }
 
   function handleSelectedProject (id) {
     setProjectsState(preProjectsState => {
@@ -68,6 +88,9 @@ function App() {
   let content = <SelectedProject
                   project={selectedProject}
                   onDelete={handleDeleteAddProject}
+                  onAddTask={handleAddTask}
+                  onDeleteTask={handleDeleteTask}
+                  tasks={projectsState.tasks}
                 />;
 
   if(projectsState.selectedProjectId===null){
