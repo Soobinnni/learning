@@ -13,7 +13,7 @@ function App() {
     setProjectsState(preProjectsState => {
       return {
         ...preProjectsState,
-        selectedProjectId: null // null이면, 프로젝트를 새로 만들겠다는 의미.
+        selectedProjectId: null,
       }
     });
   }
@@ -32,10 +32,22 @@ function App() {
     });
   }
 
+  function handleCancelAddProject() {
+    setProjectsState(preProjectsState => {
+      return {
+        ...preProjectsState,
+        selectedProjectId: undefined // null이면, 프로젝트를 새로 만들겠다는 의미.
+      }
+    });
+  }
+
   let content;
 
   if(projectsState.selectedProjectId===null){
-    content = <NewProject onAdd={handleAddProject}/>
+    content = <NewProject 
+                onAdd={handleAddProject}
+                onCancel={handleCancelAddProject}
+              />
   } else if(projectsState.selectedProjectId===undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject}/>
   }
