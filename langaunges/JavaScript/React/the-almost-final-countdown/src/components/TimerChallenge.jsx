@@ -14,7 +14,7 @@ export default function TimerChallenge({ title, targetTime }) {
     if (timeRemaining <= 0) {
         // 시간이 다 되어 종료
         clearInterval(timer.current);
-        setTimeRemaining(targetTime * 1000);
+        // setTimeRemaining(targetTime * 1000); remaining time이 다시 target time이 되어 원하는 결과가 나오지 않음
         dialog.current.open();
     }
 
@@ -32,12 +32,18 @@ export default function TimerChallenge({ title, targetTime }) {
         // TODO: 승리 모달이 띄워지게 하기.
         dialog.current.open();
     }
+
+    function handleReset () {
+        setTimeRemaining(targetTime * 1000);
+    }
     return (
         <>
             <ResultModal
                 targetTime={targetTime}
-                result="lost"
+                // result="lost"
+                remainingTime = {timeRemaining}
                 ref = {dialog}
+                onReset = {handleReset} 
                 />
             <section className="challenge">
                 <h2>{title}</h2>
