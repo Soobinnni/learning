@@ -8,11 +8,22 @@ import logoImg from './assets/logo.png';
 
 import { sortPlacesByDistance } from './loc.js';
 
+// 아래 코드를 useEffect함수의 Effect함수의 동작으로 정의하지 않는 이유는,
+// 1. pickedPlaces의 초기값으로 사용되어야 하기 때문에
+// 2. navigator.geolocation.getCurrentPosition은 느리게 처리되어 콜백함수가
+//    작동되기까지 오랜 시간이 필요하지만(콜백 함수) localStorage의 데이터 가져오기 및 처리는 그렇지 않기 때문에.
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storedIds.map(
+  id => AVAILABLE_PLACES.find((place) => place.id === id)
+);
+
+
 function App() {
+
   const modal = useRef();
   const selectedPlace = useRef();
-  const [pickedPlaces, setPickedPlaces] = useState([]);
   const [availablePlaces, setAvailablePlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
 
   useEffect(() => {
@@ -43,6 +54,12 @@ function App() {
       const place = AVAILABLE_PLACES.find((place) => place.id === id);
       return [place, ...prevPickedPlaces];
     });
+
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    // 이미 배열에 있는 id일 경우를 대비하여
+    if (storedIds.indexOf(id) === -1) {
+      localStorage.setItem('selectedPlaces', JSON.stringify([id, ...storedIds]));
+    }
   }
 
   function handleRemovePlace() {
@@ -50,6 +67,10 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     modal.current.close();
+
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    // 삭제 아이디 외에 유지하기 위해 filter함수 사용.
+    localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => { id !== selectedPlace.current })));
   }
 
   return (
