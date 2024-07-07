@@ -1,19 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
+const TIMER = 3000;
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const [remainingTime, setRemainingTime] = useState(TIMER);
 
-  // setTime을 useEffect로 정의하는 이유: 컴포넌트 생명주기와 관계없이 설정한 타이머는 계속해서 실행되며
-  // 만일 setTimeout에 상태가 포함될 경우 컴포넌트가 여러 번 렌더링될 수 있음
-  useEffect(()=>{
-    const timer = setTimeout(()=>{
+  useEffect(() => { // 모달 닫히는 시간 알려줌.
+    const interval = setInterval(() => {
+      setRemainingTime(prevTime => prevTime - 10);
+    }, 10)
+    return () => {
+      clearInterval(interval);
+    }
+  }, []);
+
+  useEffect(() => { // 모달이 닫힘
+    const timer = setTimeout(() => {
       onConfirm()
-    }, 3000);
-    
-    // clean up function
-    return ()=>{
+    }, TIMER);
+
+    return () => {
       clearTimeout(timer);
     }
   }, [onConfirm])
+
+
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>
@@ -26,6 +36,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER} />
     </div>
   );
 }
