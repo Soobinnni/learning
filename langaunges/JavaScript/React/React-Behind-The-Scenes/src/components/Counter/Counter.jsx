@@ -1,4 +1,4 @@
-import { useState, memo, useCallback } from 'react';
+import { useState, memo, useCallback, useMemo } from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -29,7 +29,11 @@ function isPrime(number) {
 
 const Counter = ({ initialCount }) => { // ConfigureCounter의 정의로, memo는 없어도 되는 기능이 됨.
   log('<Counter /> rendered', 1);
-  const initialCountIsPrime = isPrime(initialCount);
+
+  // useMemo훅으로, initialCount값이 변경될 때만, isPrime함수가 호출된다.
+  const initialCountIsPrime = useMemo(() => {
+    isPrime(initialCount)
+  }, [initialCount]);
 
   const [counter, setCounter] = useState(initialCount);
 
