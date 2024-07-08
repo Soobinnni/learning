@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useCallback } from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -33,13 +33,13 @@ const Counter = ({ initialCount }) => { // ConfigureCounter의 정의로, memo�
 
   const [counter, setCounter] = useState(initialCount);
 
-  function handleDecrement() {
+  const handleDecrement = useCallback(() => {
     setCounter((prevCounter) => prevCounter - 1);
-  }
+  }, [])
 
-  function handleIncrement() {
+  const handleIncrement = useCallback(() => {
     setCounter((prevCounter) => prevCounter + 1);
-  }
+  }, [])
 
   return (
     <section className="counter">
