@@ -4,14 +4,13 @@ import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
 import PlusIcon from '../UI/Icons/PlusIcon.jsx';
 import CounterOutput from './CounterOutput.jsx';
+import CounterHistory from './CounterHistory.jsx';
+
 import { log } from '../../log.js';
 
 function isPrime(number) {
-  log(
-    'Calculating if is prime number',
-    2,
-    'other'
-  );
+  log('Calculating if is prime number', 2, 'other');
+
   if (number <= 1) {
     return false;
   }
@@ -27,23 +26,38 @@ function isPrime(number) {
   return true;
 }
 
-const Counter = ({ initialCount }) => { // ConfigureCounter의 정의로, memo는 없어도 되는 기능이 됨.
+const Counter = memo(function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
 
-  // useMemo훅으로, initialCount값이 변경될 때만, isPrime함수가 호출된다.
-  const initialCountIsPrime = useMemo(() => {
-    isPrime(initialCount)
-  }, [initialCount]);
+  const initialCountIsPrime = useMemo(
+    () => isPrime(initialCount),
+    [initialCount]
+  );
 
-  const [counter, setCounter] = useState(initialCount);
+  // const [counter, setCounter] = useState(initialCount);
+  const [counterChanges, setCounterChanges] = useState([
+    { value: initialCount, id: Math.random() * 1000 }
+  ]);
 
-  const handleDecrement = useCallback(() => {
-    setCounter((prevCounter) => prevCounter - 1);
-  }, [])
+  const currentCounter = counterChanges.reduce(
+    (prevCounter, counterChange) => prevCounter + counterChange.value,
+    0
+  );
 
-  const handleIncrement = useCallback(() => {
-    setCounter((prevCounter) => prevCounter + 1);
-  }, [])
+  const handleDecrement = useCallback(function handleDecrement() {
+    // setCounter((prevCounter) => prevCounter - 1);
+    setCounterChanges((prevCounterChanges) => [
+      { value: -1, id: Math.random() * 1000 }, 
+    ...prevCounterChanges]);
+  }, []);
+
+  const handleIncrement = useCallback(function handleIncrement() {
+    // setCounter((prevCounter) => prevCounter + 1);
+    setCounterChanges((prevCounterChanges) => [
+      { value: 1, id: Math.random() * 1000 },  
+      ...prevCounterChanges
+    ]);
+  }, []);
 
   return (
     <section className="counter">
@@ -55,12 +69,14 @@ const Counter = ({ initialCount }) => { // ConfigureCounter의 정의로, memo�
         <IconButton icon={MinusIcon} onClick={handleDecrement}>
           Decrement
         </IconButton>
-        <CounterOutput value={counter} />
+        <CounterOutput value={currentCounter} />
         <IconButton icon={PlusIcon} onClick={handleIncrement}>
           Increment
         </IconButton>
       </p>
+      <CounterHistory history={counterChanges}/>
     </section>
   );
-}
-export default memo(Counter);
+});
+
+export default Counter;
