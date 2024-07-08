@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import Counter from './components/Counter/Counter.jsx';
 import Header from './components/Header.jsx';
