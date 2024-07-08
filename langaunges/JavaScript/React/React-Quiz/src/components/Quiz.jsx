@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
-import QuizTimer from "./QuizTimer.jsx";
-import QUESTIONS from '../questions.js'
+import Question from "./Question.jsx";
 import quizComplete from '../assets/quiz-complete.png'
+import QUESTIONS from "../questions.js";
 
 export default function Quiz() {
     const [userAnswers, setUserAnswers] = useState([]);
@@ -10,13 +10,14 @@ export default function Quiz() {
 
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length; // quiz를 모두 답변했는지.
 
-    const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer) {
-        setUserAnswers(preAnswer => {
-            return [
-                ...preAnswer, selectedAnswer
-            ]
+    const handleSelectAnswer = useCallback(function handleSelectAnswer(
+        selectedAnswer
+    ) {
+        setUserAnswers((prevUserAnswers) => {
+            return [...prevUserAnswers, selectedAnswer];
         });
-    }, [])
+    },
+        []);
 
     const handleSkipAnswer = useCallback(() => { handleSelectAnswer(null) }, [handleSelectAnswer]);
 
@@ -28,27 +29,15 @@ export default function Quiz() {
             </div>
         )
     }
-    // 답안의 순서를 섞기 위한 변수: if문이 먼저 있어야 함. 왜냐하면 더 이상의 배열의 요소가 없는 데 섞게 되면 문제가 발생.
-    const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-    shuffledAnswers.sort(() => Math.random() - 0.5);
+
     return (
         <div id="quiz">
-            <div id="question">
-                <QuizTimer 
-                    timeout={10000} 
-                    onTimeout={handleSkipAnswer} 
-                    key = {activeQuestionIndex}    
-                />
-                <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-                <ul id="answers">
-                    {shuffledAnswers.map(answer => (
-                        <li key={answer} className="answer">
-                            <button onClick={() => handleSelectAnswer(answer)}>{answer}</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <Question
+                key={activeQuestionIndex}
+                questionIndex={activeQuestionIndex}
+                onSkipAnswer={handleSkipAnswer}
+                onSelectAnswer={handleSelectAnswer}
+            />
         </div>
     )
-
 }
