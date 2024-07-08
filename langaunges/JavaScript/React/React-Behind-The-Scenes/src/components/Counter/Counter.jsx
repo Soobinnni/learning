@@ -27,7 +27,7 @@ function isPrime(number) {
   return true;
 }
 
-const Counter = ({ initialCount }) => {
+const Counter = ({ initialCount }) => { // ConfigureCounter의 정의로, memo는 없어도 되는 기능이 됨.
   log('<Counter /> rendered', 1);
   const initialCountIsPrime = isPrime(initialCount);
 
