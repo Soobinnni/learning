@@ -3,7 +3,16 @@ export async function fetchAvailablePlaces() {
     const response = await fetch(`${origin}/places`);
     const resData = await response.json();
 
-    // 에러 다루기
+    if (!response.ok) { // !(200, 300) == 400, 500
+      throw new Error('Failed to fetch places');
+    }
+
+    return resData.places;
+}
+export async function fetchUserPlaces() {
+    const response = await fetch(`${origin}/user-places`);
+    const resData = await response.json();
+
     if (!response.ok) { // !(200, 300) == 400, 500
       throw new Error('Failed to fetch places');
     }
