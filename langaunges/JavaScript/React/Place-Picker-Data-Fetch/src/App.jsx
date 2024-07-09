@@ -5,6 +5,8 @@ import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
+import { updateUserPlaces } from './http.js';
+
 
 function App() {
   const selectedPlace = useRef();
@@ -22,7 +24,7 @@ function App() {
     setModalIsOpen(false);
   }
 
-  function handleSelectPlace(selectedPlace) {
+  async function handleSelectPlace(selectedPlace) {
     setUserPlaces((prevPickedPlaces) => {
       if (!prevPickedPlaces) {
         prevPickedPlaces = [];
@@ -32,6 +34,13 @@ function App() {
       }
       return [selectedPlace, ...prevPickedPlaces];
     });
+
+    // 사용자가 장소를 클릭하면 저장하도록 구현
+    try {
+      await updateUserPlaces([selectedPlace,...userPlaces]);
+    } catch (error) {
+      
+    }
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
