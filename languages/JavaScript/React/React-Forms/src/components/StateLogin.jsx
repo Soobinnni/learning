@@ -17,6 +17,8 @@ export default function Login() {
     event.preventDefault();
 
     console.log(`email: ${enteredValues.email}\npassword: ${enteredValues.password}`)
+
+    if(emailIsInvalid) return;
   }
 
   function handleInputChange(identifier, value){
@@ -44,7 +46,7 @@ export default function Login() {
           <label htmlFor="email">Email</label>
           <input 
             id="email" 
-            type="email" 
+            type="text" 
             name="email" 
             onBlur={()=>handleInputBlur('email')}
             onChange={(event)=>handleInputChange('email', event.target.value)}
