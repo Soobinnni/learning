@@ -5,9 +5,13 @@ export default function Login() {
     email: '',
     password: '',
   });
+  const [didEdit, setDidEdit] = useState({ // 사용자가 input을 건드렸는지 log
+    email: false,
+    password: false,
+  });
 
   // 유효성 검사
-  const emailIsInvalid=(enteredValues.email !== '') && (!enteredValues.email.includes('@'));
+  const emailIsInvalid=(didEdit.email) && (!enteredValues.email.includes('@'));
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -22,6 +26,14 @@ export default function Login() {
         [identifier]:value
       }
     ))
+    setDidEdit(preDid=>( //다시 입력할 때 유효성 검사를 위해 리셋
+      {...preDid, [identifier]:false}
+    ))
+  }
+  function handleInputBlur(identifier) {
+    setDidEdit(preDid=>(
+      {...preDid, [identifier]:true}
+    ))
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -34,6 +46,7 @@ export default function Login() {
             id="email" 
             type="email" 
             name="email" 
+            onBlur={()=>handleInputBlur('email')}
             onChange={(event)=>handleInputChange('email', event.target.value)}
             value={enteredValues.email}
           />
