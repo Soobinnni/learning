@@ -1,15 +1,28 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function Login() {
-  const email = useRef();
-  const password = useRef();
+  const [enteredValues, setEnteredValues] = useState({
+    email: '',
+    password: '',
+  });
+
+  // 유효성 검사
+  const emailIsInvalid=(enteredValues.email !== '') && (!enteredValues.email.includes('@'));
 
   function handleSubmit(event) {
-    event.preventDefault(); // 브라우저가 submit 이벤트에 기본적으로 수행하는 작업(새로고침) 방지.
+    event.preventDefault();
 
-    console.log(`email: ${email.current.value}\npassword: ${password.current.value}`)
+    console.log(`email: ${enteredValues.email}\npassword: ${enteredValues.password}`)
   }
 
+  function handleInputChange(identifier, value){
+    setEnteredValues(prevValues=>(
+      {
+        ...prevValues,
+        [identifier]:value
+      }
+    ))
+  }
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
@@ -21,8 +34,10 @@ export default function Login() {
             id="email" 
             type="email" 
             name="email" 
-            ref={email}
+            onChange={(event)=>handleInputChange('email', event.target.value)}
+            value={enteredValues.email}
           />
+          <div className="control-error">{emailIsInvalid&&<p>Please enter a valid email address</p>}</div>
         </div>
 
         <div className="control no-margin">
@@ -30,8 +45,9 @@ export default function Login() {
           <input 
             id="password" 
             type="password" 
-            name="password"
-            ref={password} 
+            name="password" 
+            onChange={(event)=>handleInputChange('password', event.target.value)}
+            value={enteredValues.password}
           />
         </div>
       </div>

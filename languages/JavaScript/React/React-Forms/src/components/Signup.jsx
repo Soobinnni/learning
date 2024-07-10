@@ -2,35 +2,13 @@ export default function Signup() {
     function handleSubmit(event) {
         event.preventDefault();
 
-        // 활용하기 위해서 name속성이 설정되어 있어야 하며, 그래야 입력값에 접근할 수 있다.
         const fd = new FormData(event.target);
 
-        //하나씩 얻는 법
-        fd.get('email')
-
-        // 값 전체를 객체화 하여 얻는 법
         const data = Object.fromEntries(fd.entries());
-
-        // 같은 name을 가진 것들은 따로 추출
         const acquisitionChannel = fd.getAll('acquisition');
         data.acquisition = acquisitionChannel;
-
-        console.log(data);
-        // Prototype: Object
-        // {
-        //     "email": "yongu615@gang.com",
-        //     "password": "asdf",
-        //     "confirm-password": "asdf",
-        //     "first-name": "ki",
-        //     "last-name": "soo",
-        //     "role": "student",
-        //     "acquisition": [
-        //         "google",
-        //         "friend"
-        //     ],
-        //     "terms": "on"
-        // }
     }
+    
     return (
         <form onSubmit={handleSubmit}>
             <h2>Welcome on board!</h2>

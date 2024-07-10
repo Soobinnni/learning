@@ -1,28 +1,15 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 export default function Login() {
-  // const [enteredEmail, setEnteredEmail] = useState('');
-  // const [enteredPassword, setEnteredPassword] = useState('');
-
-  const [enteredValues, setEnteredValues] = useState({
-    email: '',
-    password: '',
-  });
+  const email = useRef();
+  const password = useRef();
 
   function handleSubmit(event) {
     event.preventDefault(); // 브라우저가 submit 이벤트에 기본적으로 수행하는 작업(새로고침) 방지.
 
-    console.log(`email: ${enteredValues.email}\npassword: ${enteredValues.password}`)
+    console.log(`email: ${email.current.value}\npassword: ${password.current.value}`)
   }
 
-  function handleInputChange(identifier, value){
-    setEnteredValues(prevValues=>(
-      {
-        ...prevValues,
-        [identifier]:value
-      }
-    ))
-  }
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
@@ -34,8 +21,7 @@ export default function Login() {
             id="email" 
             type="email" 
             name="email" 
-            onChange={(event)=>handleInputChange('email', event.target.value)}
-            value={enteredValues.email}
+            ref={email}
           />
         </div>
 
@@ -44,9 +30,8 @@ export default function Login() {
           <input 
             id="password" 
             type="password" 
-            name="password" 
-            onChange={(event)=>handleInputChange('password', event.target.value)}
-            value={enteredValues.password}
+            name="password"
+            ref={password} 
           />
         </div>
       </div>
