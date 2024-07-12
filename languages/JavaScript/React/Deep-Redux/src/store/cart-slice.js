@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { uiActions } from "./ui-slice";
+import backendUrl from "../backend.js";
+
 const initialState = {
     items: [],
     totalQuantity: 0,
@@ -35,7 +38,7 @@ const cartSlice = createSlice({
             const existingItem = state.items.find(item => item.id === id);
 
             if (existingItem.quantity === 1) {
-                state.items=state.items.filter((item) => (item.id !== id));
+                state.items = state.items.filter((item) => (item.id !== id));
             } else {
                 existingItem.quantity--;
                 existingItem.totalPrice -= existingItem.price;
@@ -45,6 +48,46 @@ const cartSlice = createSlice({
 });
 
 const { reducer: cartReducer, actions: cartActions } = cartSlice;
+
+// 원래 action객체를 생성하는 action creater의 역할로 액션 객체를 생성할 필요가 없었음
+export const sendCartData = (cart) => {
+    return async (dispatch) => {
+        dispatch(uiActions.showNotification({
+            title: 'Sending...',
+            status: 'pending',
+            message: 'Sending cart data!'
+        }));
+
+        const sendRequest = async () => {
+            const response = await fetch(`${backendUrl}cart.json`, {
+                method: 'PUT',
+                body: JSON.stringify(cart)
+            });
+            if (!response.ok) {
+                throw new Error('Sending cart data failed.');
+            }
+        }
+
+        try {
+            await sendRequest();
+            dispatch(uiActions.showNotification({
+                title: 'Success!',
+                status: 'success',
+                message: 'Sent cart data successfully!'
+            }));
+        } catch (error) {
+            sendCartData().catch(error => {
+                dispatch(uiActions.showNotification({
+                    title: 'Error!',
+                    status: 'error',
+                    message: 'Sending cart data failed!'
+                }));
+            });
+
+        }
+
+    }
+}
 
 export { cartActions };
 export default cartReducer;
