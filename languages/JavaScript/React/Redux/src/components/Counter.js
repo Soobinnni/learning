@@ -1,14 +1,18 @@
-import { counterActions } from '../store';
+import { counterActions } from '../store/counter';
 import classes from './Counter.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 
 
 const Counter = () => {
 
+  // 디스패치 함수
   const dispatch = useDispatch();
-  const counter = useSelector((state)=>state.counter);
-  const show = useSelector((state)=>state.showCounter);
 
+  // state선택
+  const counter = useSelector((state)=>state.counter.counter);
+  const show = useSelector((state)=>state.counter.showCounter);
+
+  // 액션 객체를 디스패치 함수의 인자로 전달
   const incrementHandler = () => {dispatch(counterActions.increment());}
   const increaseHandler = (amount) => {dispatch(counterActions.increase(amount))  };
   const decrementHandler = () => {dispatch(counterActions.decrement());}
