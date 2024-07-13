@@ -9,7 +9,7 @@ import ErrorPage from './pages/Error.js';
 import HomePage from './pages/Home.js';
 import EventsPage, { loader as eventLoader } from './pages/Events.js';
 import EventDetailPage, { loader as eventDetailLoader } from './pages/EventsDetail.js';
-import NewEventPage from './pages/NewEvent.js';
+import NewEventPage, {action as newEventAction} from './pages/NewEvent.js';
 import EditEventPage from './pages/EditEvent.js';
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
             },
             {
               path: 'new',
+              action: newEventAction,
               element: <NewEventPage />,
             },
             {
