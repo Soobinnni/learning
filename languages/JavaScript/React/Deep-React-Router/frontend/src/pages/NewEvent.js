@@ -10,8 +10,6 @@ export default NewEventPage;
 export const action = async({request, params}) => {
     const data = await request.formData();
 
-    // const enteredTitle = data.get('title');
-
     const eventData = {
         title: data.get('title'),
         image: data.get('image'),
@@ -27,6 +25,9 @@ export const action = async({request, params}) => {
         body: JSON.stringify(eventData)
     });
 
+    if(response.status === 422) { // backend 유효하지 않은 데이터 상태 반환
+        return response;
+    }
     
     if(!response.ok) {
         throw json({message: 'Could not save event.'},{status: 500})
