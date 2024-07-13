@@ -1,65 +1,69 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import RootLayout from './pages/Root.js';
-import EventRootLayout from './pages/EventRoot.js';
+import EditEventPage from './pages/EditEvent';
+import ErrorPage from './pages/Error';
+import EventsDetailPage, {
+  loader as eventDetailLoader,
+  action as deleteEventAction,
+} from './pages/EventsDetail';
+import EventsPage, { loader as eventsLoader } from './pages/Events';
+import EventRootLayout from './pages/EventRoot';
+import HomePage from './pages/Home';
+import NewEventPage from './pages/NewEvent';
+import RootLayout from './pages/Root';
+import { action as manipulateEventAction } from './components/EventForm';
+import NewsletterPage, { action as newsletterAction } from './pages/Newsletter';
 
-import ErrorPage from './pages/Error.js';
-
-import HomePage from './pages/Home.js';
-import EventsPage, { loader as eventLoader } from './pages/Events.js';
-import EventDetailPage, { loader as eventDetailLoader, action as deleteEventAction } from './pages/EventsDetail.js';
-import NewEventPage from './pages/NewEvent.js';
-import EditEventPage from './pages/EditEvent.js';
-import {action as manipulateEventAction} from './components/EventForm.js';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <HomePage /> },
+      {
+        path: 'events',
+        element: <EventRootLayout />,
+        children: [
+          {
+            index: true,
+            element: <EventsPage />,
+            loader: eventsLoader,
+          },
+          {
+            path: ':eventId',
+            id: 'event-detail',
+            loader: eventDetailLoader,
+            children: [
+              {
+                index: true,
+                element: <EventsDetailPage />,
+                action: deleteEventAction,
+              },
+              {
+                path: 'edit',
+                element: <EditEventPage />,
+                action: manipulateEventAction,
+              },
+            ],
+          },
+          {
+            path: 'new',
+            element: <NewEventPage />,
+            action: manipulateEventAction,
+          },
+        ],
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <RootLayout />,
-      errorElement: <ErrorPage />,
-      children: [
-        {
-          index: true,
-          element: <HomePage />,
-        },
-        {
-          path: 'events',
-          element: <EventRootLayout />,
-          children: [
-            {
-              index: true,
-              element: <EventsPage />,
-              loader: eventLoader
-            },
-            {
-              path: 'new',
-              action: manipulateEventAction,
-              element: <NewEventPage />,
-            },
-            {
-              path: ':eventId',
-              id: 'event-detail',
-              loader: eventDetailLoader,
-              children: [
-                {
-                  index: true,
-                  element: <EventDetailPage />,
-                  action: deleteEventAction
-                },
-                {
-                  path: 'edit',
-                  action: manipulateEventAction,
-                  element: <EditEventPage />,
-                },
-              ]
-            },
-          ]
-        },
-      ]
-    },
-  ])
   return <RouterProvider router={router} />;
 }
 
