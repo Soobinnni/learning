@@ -9,8 +9,9 @@ import ErrorPage from './pages/Error.js';
 import HomePage from './pages/Home.js';
 import EventsPage, { loader as eventLoader } from './pages/Events.js';
 import EventDetailPage, { loader as eventDetailLoader, action as deleteEventAction } from './pages/EventsDetail.js';
-import NewEventPage, {action as newEventAction} from './pages/NewEvent.js';
+import NewEventPage from './pages/NewEvent.js';
 import EditEventPage from './pages/EditEvent.js';
+import {action as manipulateEventAction} from './components/EventForm.js';
 
 function App() {
   const router = createBrowserRouter([
@@ -34,7 +35,7 @@ function App() {
             },
             {
               path: 'new',
-              action: newEventAction,
+              action: manipulateEventAction,
               element: <NewEventPage />,
             },
             {
@@ -49,6 +50,7 @@ function App() {
                 },
                 {
                   path: 'edit',
+                  action: manipulateEventAction,
                   element: <EditEventPage />,
                 },
               ]
