@@ -20,13 +20,14 @@ export const action = async({request, params}) => {
     }
 
     const response = await fetch('http://localhost:8080/events',{
-        method: 'POST',
+        method: 'POST', // method: request.method
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(eventData)
     });
 
+    
     if(!response.ok) {
         throw json({message: 'Could not save event.'},{status: 500})
     }

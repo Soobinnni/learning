@@ -8,7 +8,7 @@ import ErrorPage from './pages/Error.js';
 
 import HomePage from './pages/Home.js';
 import EventsPage, { loader as eventLoader } from './pages/Events.js';
-import EventDetailPage, { loader as eventDetailLoader } from './pages/EventsDetail.js';
+import EventDetailPage, { loader as eventDetailLoader, action as deleteEventAction } from './pages/EventsDetail.js';
 import NewEventPage, {action as newEventAction} from './pages/NewEvent.js';
 import EditEventPage from './pages/EditEvent.js';
 
@@ -45,6 +45,7 @@ function App() {
                 {
                   index: true,
                   element: <EventDetailPage />,
+                  action: deleteEventAction
                 },
                 {
                   path: 'edit',
