@@ -12,7 +12,8 @@ export default function ProductsPage() {
         <ul>
             {
                 PRODUCTS.map(product => (
-                    <li><Link to={`/products/${product.id}`} >product.title</Link></li>
+                    // <li><Link to={`/products/${product.id}`} >product.title</Link></li>
+                    <li><Link to={product.id} >product.title</Link></li>
                 ))
             }
         </ul>
