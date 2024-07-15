@@ -1,12 +1,48 @@
-import { useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
+import { fetchEvents } from '../../util/http.js'
+import LoadingIndicator from '../UI/LoadingIndicator.jsx';
+import EventItem from './EventItem.jsx';
+import ErrorBlock from '../UI/ErrorBlock.jsx';
 
 export default function FindEventSection() {
   const searchElement = useRef();
+  const [searchTerm, setSearchTerm] = useState(); // initial value === undefined
+  const { data, isLoading, isError, error } = useQuery({
+    // 같은 쿼리지만, 다른 동작을 수행하도록 key의 두 번째 요소에 동적 쿼리키를 설정한다.
+    queryKey: ['events', { search: searchTerm }],
+    queryFn: ({signal}) => fetchEvents({signal, searchTerm}),
+    enabled: searchTerm !== undefined // 수동으로 모두 지운다면 빈 문자열이므로 모든 event가 return
+  })
 
   function handleSubmit(event) {
     event.preventDefault();
+    setSearchTerm(searchElement.current.value);
   }
 
+  let content = <p>Please enter a search term and to find events.</p>;
+
+  if (isLoading) content = <LoadingIndicator />;
+  if (isError) {
+    content = (
+      <ErrorBlock
+        title="An error occurred"
+        message={error.info?.message || 'Failed to fetch events.'}
+      />
+    );
+  }
+
+  if (data) {
+    content = (
+      <ul className="events-list">
+        {data.map((event) => (
+          <li key={event.id}>
+            <EventItem event={event} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
   return (
     <section className="content-section" id="all-events-section">
       <header>
@@ -20,7 +56,7 @@ export default function FindEventSection() {
           <button>Search</button>
         </form>
       </header>
-      <p>Please enter a search term and to find events.</p>
+      {content}
     </section>
   );
 }
