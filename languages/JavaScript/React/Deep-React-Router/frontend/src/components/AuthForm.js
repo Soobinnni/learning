@@ -16,7 +16,7 @@ function AuthForm() {
   
 
   const [searchParams] = useSearchParams();
-  const isLogin = searchParams.get('mode') === 'login';
+  const isLogin = searchParams.get('mode') === 'login' || searchParams.get('mode') === null;
   return (
     <>
       <Form method="post" className={classes.form}>
