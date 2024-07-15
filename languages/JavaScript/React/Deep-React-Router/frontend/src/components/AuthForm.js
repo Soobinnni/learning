@@ -2,27 +2,33 @@ import {
   Form,
   Link,
   useSearchParams,
-  json, redirect
+  useActionData,
+  useNavigation
 } from 'react-router-dom';
 
 import classes from './AuthForm.module.css';
 
 function AuthForm() {
-  // searchParams는 URL의 쿼리 파라미터를 읽는 객체.
-  // setSearchParams는 쿼리 파라미터를 설정하는 함수.
-  const [searchParams, setSearchParams] = useSearchParams();
+  const data = useActionData();
 
-  // 쿼리 파라미터 읽기
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting'
+  
+
+  const [searchParams] = useSearchParams();
   const isLogin = searchParams.get('mode') === 'login';
-
-  /* 쿼리 파라미터 설정하기
-  const updateSearchParams = () => {
-    setSearchParams({ paramKey: 'newValue' });
-  }; */
   return (
     <>
       <Form method="post" className={classes.form}>
         <h1>{isLogin ? 'Log in' : 'Create a new user'}</h1>
+        { // 폼 전송을 이전에 실행했어야 data가 있을 것이므로...
+          data && data.errors && <ul>
+            {Object.values(data.errors).map(err => (
+              <li key={err}>{err}</li>
+            ))}
+          </ul>
+        }
+        {data && data.message && <p>{data.message}</p>}
         <p>
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" required />
@@ -32,12 +38,14 @@ function AuthForm() {
           <input id="password" type="password" name="password" required />
         </p>
         <div className={classes.actions}>
-          <Link to={`?mode=${isLogin ? 'signup':'login'}`}>
-          {isLogin ? 'Create new user' : 'Login'}
-        </Link>
-        <button>Save</button>
-      </div>
-    </Form >
+          <Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
+            {isLogin ? 'Create new user' : 'Login'}
+          </Link>
+          <button disabled={isSubmitting}>
+            {isSubmitting? 'Submitting...':'Save'}
+          </button>
+        </div>
+      </Form >
     </>
   );
 }
