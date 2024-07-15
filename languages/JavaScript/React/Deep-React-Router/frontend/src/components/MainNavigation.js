@@ -34,7 +34,7 @@ function MainNavigation() {
         <ul className={classes.list}>
           {
             mainNavInfo.map(nav => (
-              token && nav.title =='Authentication'? null :(
+              token && nav.title ==='Authentication'? null :(
               <li key={nav.title}>
                 <NavLink
                   to={`/${nav.path}`}

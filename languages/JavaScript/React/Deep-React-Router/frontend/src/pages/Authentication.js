@@ -41,7 +41,12 @@ export const action = async ({ request }) => {
   const resData = await response.json();
   const token = resData.token;
 
+  // 토큰 저장. 토큰 관리를 위해 만료 시간도 함께 저장 
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours()+1);
+
   localStorage.setItem('token', token);
+  localStorage.setItem('expiration', expiration.toISOString());
 
   return redirect('/');
 }
