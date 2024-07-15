@@ -3,6 +3,7 @@ import { defer, json, redirect, useRouteLoaderData, Await } from "react-router-d
 import EventItem from '../components/EventItem.js'
 import EventsList from "../components/EventsList.js";
 import { Suspense } from "react";
+import { getAuthToken } from "../util/auth.js";
 
 const EventDetailPage = () => {
     const { event, events } = useRouteLoaderData('event-detail');
@@ -61,12 +62,16 @@ export const loader = async ({ params }) => {
 
 
 export const action = async ({ request, params }) => {
+    const token = getAuthToken();
     const response = await fetch(`http://localhost:8080/events/${params.eventId}`, {
         // method: 'DELETE'
         //       submit(null, {method:'delete'}) 에서 가져옴
-        method: request.method
+        method: request.method,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     });
-
+    
     if (!response.ok) {
         throw json({ message: 'Could not delete event.' }, { status: 500 })
     }

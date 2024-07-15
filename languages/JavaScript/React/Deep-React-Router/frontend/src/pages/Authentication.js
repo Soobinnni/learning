@@ -38,6 +38,10 @@ export const action = async ({ request }) => {
     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
   }
 
-  // TODO: 토큰으로 관리
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem('token', token);
+
   return redirect('/');
 }

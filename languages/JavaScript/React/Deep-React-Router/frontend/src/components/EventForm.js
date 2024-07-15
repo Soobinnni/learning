@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
+import { getAuthToken } from '../util/auth';
 
 function EventForm({ method, event }) {
   const data = useActionData();
@@ -102,15 +103,17 @@ export const action = async ({ request, params }) => {
     url += ('/' + params.eventId);
   }
 
+  const token = getAuthToken();
   const response = await fetch(url, {
     method,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(eventData)
   });
 
-  if (response.status === 422) { // backend 유효하지 않은 데이터 상태 반환
+  if (response.status === 422 || response.status === 401) { // backend 유효하지 않은 데이터 상태 반환
     return response;
   }
 
