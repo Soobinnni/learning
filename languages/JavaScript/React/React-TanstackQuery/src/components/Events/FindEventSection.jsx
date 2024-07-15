@@ -5,6 +5,8 @@ import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import EventItem from './EventItem.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
+
+
 export default function FindEventSection() {
   const searchElement = useRef();
   const [searchTerm, setSearchTerm] = useState(); // initial value === undefined
