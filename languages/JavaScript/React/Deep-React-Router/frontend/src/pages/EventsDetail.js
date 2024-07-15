@@ -71,7 +71,7 @@ export const action = async ({ request, params }) => {
             'Authorization': `Bearer ${token}`
         }
     });
-    
+
     if (!response.ok) {
         throw json({ message: 'Could not delete event.' }, { status: 500 })
     }
