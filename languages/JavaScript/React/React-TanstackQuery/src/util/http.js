@@ -3,22 +3,22 @@ import { QueryClient } from "@tanstack/react-query";
 export const queryClient = new QueryClient();
 
 export async function fetchEvents({ signal, searchTerm }) {
-    let url = 'http://localhost:3000/events'
-    if (searchTerm) url += '?search=' + searchTerm
-    const response = await fetch(url, { signal });
+  let url = 'http://localhost:3000/events'
+  if (searchTerm) url += '?search=' + searchTerm
+  const response = await fetch(url, { signal });
 
-    // console.log(searchTerm) 쿼리 스트링에 전달된 게 없다면(select all) undefined
+  // console.log(searchTerm) 쿼리 스트링에 전달된 게 없다면(select all) undefined
 
-    if (!response.ok) {
-        const error = new Error('An error occurred while fetching the events');
-        error.code = response.status;
-        error.info = await response.json();
-        throw error;
-    }
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching the events');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
 
-    const { events } = await response.json();
+  const { events } = await response.json();
 
-    return events;
+  return events;
 }
 
 export async function createNewEvent(eventData) {
@@ -80,6 +80,25 @@ export async function deleteEvent({ id }) {
 
   if (!response.ok) {
     const error = new Error('An error occurred while deleting the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  return response.json();
+}
+
+export async function updateEvent({ id, event }) {
+  const response = await fetch(`http://localhost:3000/events/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ event }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while updating the event');
     error.code = response.status;
     error.info = await response.json();
     throw error;
