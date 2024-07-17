@@ -2,12 +2,19 @@ import { QueryClient } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
-export async function fetchEvents({ signal, searchTerm }) {
-  let url = 'http://localhost:3000/events'
-  if (searchTerm) url += '?search=' + searchTerm
-  const response = await fetch(url, { signal });
+export async function fetchEvents({ signal, searchTerm, max }) {
+  let url = 'http://localhost:3000/events';
 
-  // console.log(searchTerm) 쿼리 스트링에 전달된 게 없다면(select all) undefined
+  // 보여주는 EVENT의 수 조절
+  if (searchTerm && max) {
+    url += '?search=' + searchTerm + '&max=' + max;
+  } else if (searchTerm) {
+    url += '?search=' + searchTerm;
+  } else if (max) {
+    url += '?max=' + max
+  }
+
+  const response = await fetch(url, { signal: signal });
 
   if (!response.ok) {
     const error = new Error('An error occurred while fetching the events');

@@ -12,8 +12,10 @@ export default function FindEventSection() {
   const [searchTerm, setSearchTerm] = useState(); // initial value === undefined
   const { data, isLoading, isError, error } = useQuery({
     // 같은 쿼리지만, 다른 동작을 수행하도록 key의 두 번째 요소에 동적 쿼리키를 설정한다.
-    queryKey: ['events', { search: searchTerm }],
-    queryFn: ({signal}) => fetchEvents({signal, searchTerm}),
+    queryKey: ['events', { searchTerm: searchTerm }],
+
+    //                                                     쿼리 키 재사용
+    queryFn: ({signal, queryKey}) => fetchEvents({signal, ...queryKey[1] }),
     enabled: searchTerm !== undefined // 수동으로 모두 지운다면 빈 문자열이므로 모든 event가 return
   })
 
