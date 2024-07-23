@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import kim.soov.blog.domain.Article;
 import kim.soov.blog.dto.AddArticleRequest;
+import kim.soov.blog.dto.UpdateArticleRequest;
 import kim.soov.blog.repository.BlogRepository;
 import org.assertj.core.api.Assertions;
 
@@ -149,5 +150,36 @@ class BlogApiControllerTest {
 
         assertThat(articlesNum).isZero();
         // assertThat(articles).isEmpty();
+    }
+
+    @DisplayName("updateArticle: 블로그 글 수정에 성공한다.")
+    @Test
+    public void updateArticle() throws Exception{
+        //given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        final String updatedContent = "content";
+        final String updatedTitle = "title";
+        UpdateArticleRequest request = new UpdateArticleRequest(updatedTitle, updatedContent);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(put(url, savedArticle.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+        Article article = blogRepository.findById(savedArticle.getId()).get();
+
+        assertThat(article.getTitle()).isEqualTo(updatedTitle);
+        assertThat(article.getContent()).isEqualTo(updatedContent);
     }
 }
