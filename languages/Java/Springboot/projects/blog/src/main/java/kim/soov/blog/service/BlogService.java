@@ -22,4 +22,10 @@ public class BlogService {
         return blogRepository.findAll();
     }
 
+    // article read
+    public Article findById(Long id){
+        return blogRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("not found: "+ id));
+    }
+
 }

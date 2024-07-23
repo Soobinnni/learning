@@ -57,7 +57,7 @@ class BlogApiControllerTest {
     @Test
     public void findAllArticles() throws Exception{
         //given
-        final String url = "http://localhost:8080/api/articles";
+        final String url = "/api/articles";
         final String title = "title";
         final String content = "content";
 
@@ -80,7 +80,7 @@ class BlogApiControllerTest {
     @Test
     public void addArticle() throws Exception{
         // given
-        final String url = "http://localhost:8080/api/articles";
+        final String url = "/api/articles";
         final String title="title";
         final String content = "content";
         final AddArticleRequest userRequest = new AddArticleRequest(title,content);
@@ -101,5 +101,28 @@ class BlogApiControllerTest {
         Assertions.assertThat(articles.size()).isEqualTo(1);
         Assertions.assertThat(articles.get(0).getTitle()).isEqualTo(title);
         Assertions.assertThat(articles.get(0).getContent()).isEqualTo(content);
+    }
+
+    @DisplayName("findArticle: 블로그 글 조회에 성공한다.")
+    @Test
+    public void findArticle() throws Exception{
+        //given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(get(url, savedArticle.getId()));
+
+        //then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.content").value(content));
     }
 }
