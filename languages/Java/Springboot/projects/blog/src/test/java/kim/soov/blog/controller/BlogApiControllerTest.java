@@ -53,6 +53,29 @@ class BlogApiControllerTest {
         blogRepository.deleteAll();
     }
 
+    @DisplayName("findAllArticles")
+    @Test
+    public void findAllArticles() throws Exception{
+        //given
+        final String url = "http://localhost:8080/api/articles";
+        final String title = "title";
+        final String content = "content";
+
+        blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        //when
+        final ResultActions result = mockMvc.perform(get(url)
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value(title))
+                .andExpect(jsonPath("$[0].content").value(content));
+    }
+
     @DisplayName("addArticle: 블로그 글 추가에 성공한다.")
     @Test
     public void addArticle() throws Exception{
