@@ -28,4 +28,8 @@ public class BlogService {
                 .orElseThrow(()-> new IllegalArgumentException("not found: "+ id));
     }
 
+    // delete article
+    public void delete(Long id){
+        blogRepository.deleteById(id);
+    }
 }
