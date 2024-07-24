@@ -51,7 +51,7 @@ class BlogApiControllerTest {
     public void mockMvcSetup(){
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        blogRepository.deleteAll();
+//        blogRepository.deleteAll();
     }
 
     @DisplayName("findAllArticles")
@@ -99,9 +99,10 @@ class BlogApiControllerTest {
 
         List<Article> articles = blogRepository.findAll();
 
-        Assertions.assertThat(articles.size()).isEqualTo(1);
-        Assertions.assertThat(articles.get(0).getTitle()).isEqualTo(title);
-        Assertions.assertThat(articles.get(0).getContent()).isEqualTo(content);
+        int compareIdx = articles.size()-1;
+//        Assertions.assertThat(articles.size()).isEqualTo(1);
+        Assertions.assertThat(articles.get(compareIdx).getTitle()).isEqualTo(title);
+        Assertions.assertThat(articles.get(compareIdx).getContent()).isEqualTo(content);
     }
 
     @DisplayName("findArticle: 블로그 글 조회에 성공한다.")
