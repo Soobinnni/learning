@@ -5,14 +5,14 @@ import ArticleItem from "./Item.jsx";
 import LoadingIndicator from '../../LoadingIndicator.jsx';
 import ErrorBlock from '../../ErrorBlock.jsx';
 
-const ArticleList = () => {
+const ArticleList = ({}) => {
     const {
         data,
         isPending,
         isError,
         error
     } = useQuery({
-        queryKey: ['articles'],
+        queryKey: ['article'],
         queryFn: ({ signal }) => getArticleList({ signal })
     });
 
@@ -31,15 +31,22 @@ const ArticleList = () => {
     }
 
     if (data) {
-        content = (
-            <ul className="article-list grid grid-cols-4 gap-4">
-                {data.map((article, idx) => (
-                    <li key={idx}>
-                        <ArticleItem article={article} />
-                    </li>
-                ))}
-            </ul>
-        );
+        if (data.length > 0) {
+            content = (
+                <ul className="container w-app article-list grid grid-cols-4 gap-6">
+                    {data.map((article) => (
+                        <li key={article.id}>
+                            <ArticleItem article={article} />
+                        </li>
+                    ))}
+                </ul>
+            );
+        } else {
+            content = <div className="mt-20 text-center">
+                        <p>등록된 게시물이 없습니다.</p>
+                
+                </div>
+        }
     }
 
     return <div>{content}</div>

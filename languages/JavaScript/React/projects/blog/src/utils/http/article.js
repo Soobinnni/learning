@@ -34,3 +34,30 @@ export async function getArticleList({ signal }) {
 
     return articles;
 }
+
+export async function getArticleById({ signal, id }) {
+    const url = SERVER_ARTICLE+`/${id}`;
+
+    const response = await fetch(url, { signal });
+
+    if (!response.ok) {
+        const error = new Error();
+        error.code = response.status;
+        error.info = await response.json();
+
+        throw error;
+    }
+
+    /*
+        {
+            "id": 12,
+            "title": "MY FIRST BLOG POST",
+            "content": "FIRST CONTENT!",
+            "createdAt": "2024-07-24T17:54:28.772739"
+        }
+     */
+
+    const article = await response.json();
+
+    return article;
+}

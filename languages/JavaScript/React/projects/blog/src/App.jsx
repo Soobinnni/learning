@@ -6,6 +6,7 @@ import ErrorPage from "./pages/Error/Error.jsx";
 import ArticleListPage from './pages/Article/List.jsx'
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/http/index.js";
+import ArticleDetailPage from "./pages/Article/Detail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,13 +28,15 @@ const router = createBrowserRouter([
           },
           {
             path: 'blog',
-            element: <ArticleLayout />,
-            children: [
-              {
-                index: true,
+            // element: <ArticleLayout />,
                 element: <ArticleListPage/>
-              }
-            ]
+          },
+          {
+            path: 'blog/:blogId',
+            element:<ArticleDetailPage/>,
+            // children: {
+            //   path: 'edit'
+            // }
           }
         ]
       },

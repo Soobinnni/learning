@@ -1,24 +1,29 @@
 import { Link } from "react-router-dom";
+import { formatDate } from "../../../utils/helper";
 
 const ArticleItem = ({ article }) => {
-
-    const { title, content } = article;
+    const { id, title, content, createdAt } = article;
+    const cutContentStyle = ' whitespace-nowrap overflow-hidden text-ellipsis';
     return (
-        <Link 
-            to=''
+        <Link
+            to={'/blog/'+id}
             className="
-                bg-white/30
+            bg-white/30
                 h-48
                 overflow-hidden
                 px-5 py-4 
                 rounded-lg
-                flex flex-col gap-2
+                flex flex-col gap-4
                 cursor-pointer
                 hover:bg-primary-400/80
-                hover:text-white"
+                hover:text-white
+            "
         >
-            <p className="text-lg font-semibold">{title}</p>
-            <p>{content}</p>
+            <div className="flex flex-col">
+                <p className={`text-lg font-semibold ${cutContentStyle}`}>{title}</p>
+                <p className="text-xs text-zinc-500 text-right">{formatDate(createdAt)}</p>
+            </div>
+            <p className={`${cutContentStyle} text-zinc-800 font-thin`}>{content}</p>
         </Link>
     )
 }
