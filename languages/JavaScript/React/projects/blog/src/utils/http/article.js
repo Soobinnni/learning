@@ -76,3 +76,36 @@ export async function deleteArticle({ id }) {
         throw error;
     }
 }
+
+export async function createArticle(articleFormData) {
+    const url = SERVER_ARTICLE
+
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(articleFormData),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (!response.ok) {
+        const error = new Error();
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    /*
+    {
+        "id": 29,
+        "title": "MY FIRST BLOG POST",
+        "content": "FIRST CONTENT!",
+        "createdAt": "2024-07-24T22:32:15.6450806",
+        "updatedAt": "2024-07-24T22:32:15.6450806"
+    }
+    */
+
+    const article = await response.json();
+  
+    return article;
+}
