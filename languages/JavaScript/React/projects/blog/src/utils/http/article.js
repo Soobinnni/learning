@@ -36,7 +36,7 @@ export async function getArticleList({ signal }) {
 }
 
 export async function getArticleById({ signal, id }) {
-    const url = SERVER_ARTICLE+`/${id}`;
+    const url = SERVER_ARTICLE + `/${id}`;
 
     const response = await fetch(url, { signal });
 
@@ -60,4 +60,19 @@ export async function getArticleById({ signal, id }) {
     const article = await response.json();
 
     return article;
+}
+
+export async function deleteArticle({ id }) {
+    const url = SERVER_ARTICLE + `/${id}`;
+
+    const response = await fetch(url, {
+        method: 'DELETE'
+    })
+
+    if (!response.ok) {
+        const error = new Error();
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
 }
