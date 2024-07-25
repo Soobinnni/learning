@@ -1,12 +1,12 @@
-const Form = ({ onSubmit, children }) => {
+const Form = ({ onSubmit, inputData, children }) => {
 
+    console.log('inputData')
     function handleSubmit(event) {
         event.preventDefault();
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
 
-        console.log({...data})
         onSubmit({ ...data });
     }
     return (
@@ -20,14 +20,14 @@ const Form = ({ onSubmit, children }) => {
                     id="title"
                     name="title"
                     placeholder="제목"
-                // defaultValue={inputData?.title ?? ''}
+                    defaultValue={inputData?.title ?? ''}
                 />
                 <textarea
                     type="text"
                     id="content"
                     name="content"
                     placeholder="내용"
-                // defaultValue={inputData?.title ?? ''}
+                    defaultValue={inputData?.content ?? ''}
                 />
             </div>
             <div className="button-container flex flex-row justify-end items-center gap-8">

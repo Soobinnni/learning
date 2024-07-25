@@ -18,7 +18,8 @@ const ArticleDetail = ({ blogId }) => {
 
     const { data, isPending, isError, error } = useQuery({
         queryKey: ['article', blogId],
-        queryFn: ({ signal }) => getArticleById({ signal, id: blogId })
+        queryFn: ({ signal }) => getArticleById({ signal, id: blogId }),
+        staleTime: 10000
     });
 
     const { mutate, isPendingDeletion, isErrorDeleting, error: deleteError } = useMutation({
@@ -32,6 +33,7 @@ const ArticleDetail = ({ blogId }) => {
     const handleStartDelete = () => setIsDeleting(true);
     const handleStopDelete = () => setIsDeleting(false);
     const handleDelete = () => mutate({ id: blogId });
+    const handleEdit = () => { navigate('edit') };
 
     if (isPending) return <LoadingIndicator />;
     if (isError) return <ErrorBlock title="오류가 발생하였습니다." message={error.info?.message || '블로그 글 로딩 실패.'} />;
@@ -53,8 +55,9 @@ const ArticleDetail = ({ blogId }) => {
                 title={data.title} 
                 createdAt={data.createdAt}
                 onDeleteClick={handleStartDelete}
+                onEditClick={handleEdit}
             />
-            <ArticleContent title={data.title} content={data.content} />
+            <ArticleContent content={data.content} />
         </>
     );
 }

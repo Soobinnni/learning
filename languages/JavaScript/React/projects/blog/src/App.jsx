@@ -7,6 +7,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/http/index.js";
 import ArticleDetailPage from "./pages/Article/Detail.jsx";
 import NewArticle from "./components/feature/Article/NewArticle.jsx"
+import EditArticle, { loader as editArticleLoader } from "./components/feature/Article/EditArticle.jsx"
 
 const router = createBrowserRouter([
   {
@@ -39,9 +40,13 @@ const router = createBrowserRouter([
           {
             path: 'blog/:blogId',
             element: <ArticleDetailPage />,
-            // children: {
-            //   path: 'edit'
-            // }
+            children: [
+              {
+                path: 'edit',
+                element: <EditArticle />,
+                loader: editArticleLoader
+              }
+            ]
           }
         ]
       },

@@ -109,3 +109,35 @@ export async function createArticle(articleFormData) {
   
     return article;
 }
+export async function updateArticle({ editArticleFormData, id}) {
+    const url = SERVER_ARTICLE + '/' +id
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(editArticleFormData),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (!response.ok) {
+        const error = new Error();
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    /*
+    {
+        "id": 29,
+        "title": "MY FIRST BLOG POST",
+        "content": "FIRST CONTENT!",
+        "createdAt": "2024-07-24T22:32:15.6450806",
+        "updatedAt": "2024-07-24T22:32:15.6450806"
+    }
+    */
+
+    const article = await response.json();
+  
+    return article;
+}
