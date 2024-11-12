@@ -1,6 +1,6 @@
 package jpabook.start;
 
-import javax.persistence.*;  //**
+import jakarta.persistence.*;
 
 /**
  * User: HolyEyE
