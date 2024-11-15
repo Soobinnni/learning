@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: my-restful-service
+  #logging:
+  #  level:
+  #    org.springframework: DEBUG
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
