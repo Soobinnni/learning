@@ -14,5 +14,5 @@ public class ErrorResponse {
   private Date timestamp;
   private String errorCode;
   private String message;
-  private String details;
+  private Object details;
 }

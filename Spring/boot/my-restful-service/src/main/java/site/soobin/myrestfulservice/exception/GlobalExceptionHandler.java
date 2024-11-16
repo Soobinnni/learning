@@ -1,6 +1,8 @@
 package site.soobin.myrestfulservice.exception;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import site.soobin.myrestfulservice.exception.enums.ErrorCode;
 @RestControllerAdvice
 @Slf4j // 로깅 추가
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+  private static final String INVALID_INPUT_ERROR_CODE = "INVALID_INPUT";
+  private static final String INVALID_INPUT_MESSAGE = "Validation failed";
 
   @ExceptionHandler(Exception.class)
   public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
@@ -61,13 +65,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       HttpHeaders headers,
       HttpStatusCode status,
       WebRequest request) {
+    Map<String, String> errors = new HashMap<>();
+
+    // BindingResult에서 모든 필드 에러 가져오기
+    ex.getBindingResult()
+        .getFieldErrors()
+        .forEach(
+            error -> {
+              String fieldName = error.getField(); // 오류가 발생한 필드 이름
+              String errorMessage = error.getDefaultMessage(); // 해당 필드의 오류 메시지
+              errors.put(fieldName, errorMessage); // 필드 이름과 메시지를 Map에 추가
+            });
+
     ErrorResponse errorResponse =
         ErrorResponse.builder()
             .timestamp(new Date())
-            .message("Validation failed")
-            .details(ex.getBindingResult().toString())
+            .errorCode(INVALID_INPUT_ERROR_CODE)
+            .message(INVALID_INPUT_MESSAGE)
+            .details(errors)
             .build();
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    return ResponseEntity.status(status.value()).body(errorResponse);
   }
 
   private ErrorResponse.ErrorResponseBuilder initializeCommonErrorFields(
