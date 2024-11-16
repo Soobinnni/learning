@@ -1,5 +1,6 @@
 package site.soobin.myrestfulservice.controller;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class UserController {
   }
 
   @PostMapping("")
-  public ResponseEntity<User> createUser(@RequestBody User user) {
+  public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 
     /**
      * 201 Created 상태 코드와 함께 해당 리소스를 상세히 볼 수 있는 URI를 반환

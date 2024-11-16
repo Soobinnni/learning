@@ -2,8 +2,11 @@ package site.soobin.myrestfulservice.exception;
 
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -50,6 +53,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .build();
 
     return ResponseEntity.status(httpStatusCode).body(errorResponse);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(
+      MethodArgumentNotValidException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(new Date())
+            .message("Validation failed")
+            .details(ex.getBindingResult().toString())
+            .build();
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   private ErrorResponse.ErrorResponseBuilder initializeCommonErrorFields(
