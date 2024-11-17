@@ -3,6 +3,7 @@ package site.soobin.myrestfulservice.controller;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,9 @@ import site.soobin.myrestfulservice.exception.enums.UserErrorCode;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
-  private UserDaoService userDaoService;
-
-  public UserController(UserDaoService userDaoService) {
-    this.userDaoService = userDaoService;
-  }
+  private final UserDaoService userDaoService;
 
   @GetMapping("")
   public List<User> retreiveAllUsers() {
