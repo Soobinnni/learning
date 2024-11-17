@@ -1,5 +1,7 @@
 package site.soobin.myrestfulservice.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -7,11 +9,11 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import site.soobin.myrestfulservice.exception.enums.UserErrorCode;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"password", "ssn"})
 public class User {
   private static final String REQUIRED_NAME_MESSAGE = "이름 입력은 필수입니다.";
   private static final String INVALID_NAME_SIZE_MESSAGE = "이름은 두 글자 이상 입력해 주세요.";
@@ -25,4 +27,7 @@ public class User {
 
   @Past(message = INVALID_DATE_MESSAGE)
   private Date joinDate;
+
+  /*@JsonIgnore */ private String password;
+  /*@JsonIgnore */ private String ssn;
 }
