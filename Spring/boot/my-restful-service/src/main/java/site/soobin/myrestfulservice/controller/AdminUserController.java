@@ -20,12 +20,15 @@ import site.soobin.myrestfulservice.exception.BaseResponseException;
 import site.soobin.myrestfulservice.exception.enums.UserErrorCode;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/users")
 @RequiredArgsConstructor
 public class AdminUserController {
   private final UserDaoService userDaoService;
 
-  @GetMapping("/v1/users/{id}")
+  //  @GetMapping("/v1/users/{id}")
+  //  @GetMapping(value = "/{id}", params = "version=1")
+  //  @GetMapping(value = "/{id}", headers = "X-API-VERSION=1")
+  @GetMapping(value = "/{id}", produces = "application/vnd.company.appv1+json")
   public MappingJacksonValue retreiveUserForAdmin(@PathVariable int id) {
     User user = userDaoService.findOne(id);
     Admin admin = new Admin();
@@ -45,7 +48,10 @@ public class AdminUserController {
     return mapping;
   }
 
-  @GetMapping("/v2/users/{id}")
+  //  @GetMapping("/v2/users/{id}")
+  //  @GetMapping(value = "/{id}", params = "version=2")
+  //  @GetMapping(value = "/{id}", headers = "X-API-VERSION=2")
+  @GetMapping(value = "/{id}", produces = "application/vnd.company.appv2+json")
   public MappingJacksonValue retreiveUserForAdmin2(@PathVariable int id) {
     User user = userDaoService.findOne(id);
     AdminV2 admin = new AdminV2();
@@ -66,7 +72,7 @@ public class AdminUserController {
     return mapping;
   }
 
-  @GetMapping("/users")
+  @GetMapping
   public MappingJacksonValue retreiveAllUserForAdmin() {
     List<User> users = userDaoService.findAll();
     List<Admin> admins = new ArrayList<>();
