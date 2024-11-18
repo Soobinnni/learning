@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.soobin.myrestfulservice.bean.Admin;
+import site.soobin.myrestfulservice.bean.AdminV2;
 import site.soobin.myrestfulservice.bean.User;
 import site.soobin.myrestfulservice.dao.UserDaoService;
 import site.soobin.myrestfulservice.exception.BaseResponseException;
 import site.soobin.myrestfulservice.exception.enums.UserErrorCode;
 
 @RestController
-@RequestMapping("/admin/users")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminUserController {
   private final UserDaoService userDaoService;
 
-  @GetMapping("/{id}")
+  @GetMapping("/v1/users/{id}")
   public MappingJacksonValue retreiveUserForAdmin(@PathVariable int id) {
     User user = userDaoService.findOne(id);
     Admin admin = new Admin();
@@ -44,7 +45,28 @@ public class AdminUserController {
     return mapping;
   }
 
-  @GetMapping
+  @GetMapping("/v2/users/{id}")
+  public MappingJacksonValue retreiveUserForAdmin2(@PathVariable int id) {
+    User user = userDaoService.findOne(id);
+    AdminV2 admin = new AdminV2();
+    if (user == null) {
+      throw new BaseResponseException(UserErrorCode.USER_NOT_FOUND);
+    } else {
+      BeanUtils.copyProperties(user, admin); // target -> copy
+      admin.setGrade("VIP");
+    }
+
+    SimpleBeanPropertyFilter filter =
+        SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "grade");
+    FilterProvider filters = new SimpleFilterProvider().addFilter("UserInfoV2", filter);
+
+    MappingJacksonValue mapping = new MappingJacksonValue(admin);
+    mapping.setFilters(filters);
+
+    return mapping;
+  }
+
+  @GetMapping("/users")
   public MappingJacksonValue retreiveAllUserForAdmin() {
     List<User> users = userDaoService.findAll();
     List<Admin> admins = new ArrayList<>();
