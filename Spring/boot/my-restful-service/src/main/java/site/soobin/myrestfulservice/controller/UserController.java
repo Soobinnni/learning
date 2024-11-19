@@ -3,6 +3,13 @@ package site.soobin.myrestfulservice.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -26,6 +33,7 @@ import site.soobin.myrestfulservice.exception.enums.UserErrorCode;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Tag(name = "user-controller", description = "일반 사용자 서비스를 위한 컨트롤러입니다.")
 public class UserController {
   private final UserDaoService userDaoService;
 
@@ -34,6 +42,16 @@ public class UserController {
     return userDaoService.findAll();
   }
 
+  @Operation(summary = "사용자 정보 조회 API", description = "사용자 ID를 이용하여 사용자 상세 정보 조회를 합니다.")
+  @ApiResponses({
+    @ApiResponse(
+        responseCode = "200",
+        description = "OK !!",
+        content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!"),
+  })
   @GetMapping("/{id}")
   public EntityModel<User> retreiveUser(@PathVariable int id) {
     User findUser = userDaoService.findOne(id);
