@@ -19,7 +19,7 @@ public class SwaggerConfig {
   @Bean
   public GroupedOpenApi customTestOpenAPI() {
     // API의 경로를 설정하여 특정 경로만 노출되도록 설정할 수 있다.
-    String path[] = {"/user/**", "/admin/**"};
+    String path[] = {"/users/**", "/admin/**"};
 
     return GroupedOpenApi.builder()
         .group("일반 사용자와 관리자를 위한 User 도메인에 대한 API")
