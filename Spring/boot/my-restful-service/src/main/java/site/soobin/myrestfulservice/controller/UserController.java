@@ -1,9 +1,14 @@
 package site.soobin.myrestfulservice.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +35,15 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  public User retreiveUser(@PathVariable int id) {
+  public EntityModel<User> retreiveUser(@PathVariable int id) {
     User findUser = userDaoService.findOne(id);
     if (findUser == null) {
       throw new BaseResponseException(UserErrorCode.USER_NOT_FOUND);
     }
-    return findUser;
+    EntityModel<User> entityModel = EntityModel.of(findUser);
+    WebMvcLinkBuilder linTo = linkTo(methodOn(this.getClass()).retreiveUser(id));
+    entityModel.add(linTo.withRel("find-user"));
+    return entityModel;
   }
 
   @PostMapping("")
