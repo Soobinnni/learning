@@ -9,6 +9,10 @@ spring:
       enabled: true
     livereload:
       enabled: true
+#  security:
+#    user:
+#      name: username
+#      password: password
 
 
 management:
