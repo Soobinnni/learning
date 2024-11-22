@@ -1,36 +1,10 @@
 spring:
   application:
     name: my-restful-service
-  #logging:
-  #  level:
-  #    org.springframework: DEBUG
+  profiles:
+    active: dev
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
-  #  security:
-  #    user:
-  #      name: username
-  #      password: password
-  datasource:
-    url: jdbc:h2:mem:testdb  # 메모리 데이터베이스
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update  # 스키마 자동 생성
-    show-sql: true  # SQL 쿼리 로그 출력
-    defer-datasource-initialization: true
-  h2:
-    console:
-      enabled: true  # H2 콘솔 활성화
-      settings:
-        web-allow-others: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
