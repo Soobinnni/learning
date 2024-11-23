@@ -11,6 +11,7 @@ public class CPUBoundExample {
     public static void main(String[] args) throws InterruptedException {
 
         int numThreads = Runtime.getRuntime().availableProcessors();
+        // thread 생성(cpu 코어 개수만큼)
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
         long startTime2 = System.currentTimeMillis();
