@@ -15,7 +15,7 @@ public class ConcurrencyExample {
             data.add(i);
         }
 
-        // CPU 개수를 초과하는 데이터를 병렬로 처리
+        // CPU 개수를 *초과*하는 데이터를 병렬로 처리
         long startTime2 = System.currentTimeMillis();
         long sum2 = data.parallelStream()
                 .mapToLong(i -> {
