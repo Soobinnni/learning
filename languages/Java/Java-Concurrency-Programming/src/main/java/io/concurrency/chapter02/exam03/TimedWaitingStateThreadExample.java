@@ -5,6 +5,7 @@ public class TimedWaitingStateThreadExample {
     public static void main(String[] args) throws InterruptedException {
         Thread thread = new Thread(() -> {
             try {
+                // 시간이 지나면 runnable
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

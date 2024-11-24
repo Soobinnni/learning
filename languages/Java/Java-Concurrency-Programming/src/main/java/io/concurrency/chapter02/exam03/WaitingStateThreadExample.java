@@ -7,6 +7,7 @@ public class WaitingStateThreadExample {
         Thread thread = new Thread(() -> {
             synchronized (lock) {
                 try {
+                    // wait이므로 notify가 필요
                     lock.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
