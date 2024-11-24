@@ -24,6 +24,11 @@ public class ThreadStackExample {
             firstMethod(threadId);
         }
 
+        /*
+        * 각 스레드는 고유의 stack 메모리 영역을 가진다.
+        * 따라서 각 threadId는 값이 다르다.
+        * */
+
         private void firstMethod(int threadId) {
 
             int localValue = threadId + 100;
