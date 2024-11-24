@@ -19,7 +19,8 @@ public class InterruptSleepExample {
         sleepingThread.start();
 
         Thread.sleep(1000);
-//
+        
+        // 인터럽트 발생
         sleepingThread.interrupt();
     }
 }
