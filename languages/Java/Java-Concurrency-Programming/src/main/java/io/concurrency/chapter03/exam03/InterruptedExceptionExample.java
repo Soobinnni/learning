@@ -24,6 +24,7 @@ public class InterruptedExceptionExample {
 
         thread.interrupt();
         thread.join();
+
         System.out.println("인터럽트 상태 3: " + thread.isInterrupted());
     }
 }
