@@ -7,7 +7,7 @@ public class BasicJoinExample {
         Thread thread = new Thread(() -> {
             try {
                 System.out.println("스레드가 3초 동안 작동합니다.");
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 System.out.println("스레드 작동 완료.");
             } catch (InterruptedException e) {
                 e.printStackTrace();

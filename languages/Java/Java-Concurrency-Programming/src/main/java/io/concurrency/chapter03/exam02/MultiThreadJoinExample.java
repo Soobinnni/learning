@@ -28,6 +28,7 @@ public class MultiThreadJoinExample {
 
         System.out.println("메인 스레드가 다른 스레드의 완료를 기다립니다.");
 
+        // 두 개 스레드에 join을 걸었기 때문에 두 작업을 순차적으로 기다린다.
         thread1.join();
         thread2.join();
 

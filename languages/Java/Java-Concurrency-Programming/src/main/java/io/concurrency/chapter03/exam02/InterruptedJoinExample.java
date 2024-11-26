@@ -4,6 +4,7 @@ public class InterruptedJoinExample {
 
     public static void main(String[] args) {
 
+        // 현재 실행 중인 메서드의 정보를 얻는다.
         Thread mainThread = Thread.currentThread();
 
         Thread longRunningThread = new Thread(() -> {
@@ -13,6 +14,10 @@ public class InterruptedJoinExample {
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
+                // interruptingThread에 의해 인터럽이 걸린 longRunningThread가
+                // 예외 처리로 mainThread에 interrupt를 건다.
+                // main이 대기에서 runnable상태가 된다.
+                // 아래 코드를 주석처리한다면 main thread는 작업을 처리하고 종료된다.
                 mainThread.interrupt();
                 System.out.println("긴 작업 스레드가 인터럽트 되었습니다.");
             }
@@ -40,6 +45,8 @@ public class InterruptedJoinExample {
 
         } catch (InterruptedException e) {
             System.out.println("메인 스레드가 인터럽트 되었습니다.");
+            
+            // 예외를 던지고 종료
             throw new RuntimeException(e);
         }
     }
