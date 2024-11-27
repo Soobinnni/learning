@@ -1,7 +1,7 @@
 package io.concurrency.chapter04.exam02;
 
 public class FlagThreadStopExample {
-    // volatile 키워드 추가
+    // volatile 키워드 추가: 동기화 문제
    volatile boolean running = true;
 //    boolean running = true;
 
@@ -25,7 +25,7 @@ public class FlagThreadStopExample {
             } catch (InterruptedException e) {
             }
             System.out.println("Thread 2 종료 중..");
-            running = false;
+            running = false; // flag
         }).start();
     }
 
