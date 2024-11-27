@@ -24,5 +24,7 @@ public class UserAndDaemonInheritanceExample {
 
         userThread.start();
         daemonThread.start();
+        
+        // 상속 관계를 알 수 있음
     }
 }
