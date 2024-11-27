@@ -7,7 +7,7 @@ public class DefaultExceptionHandlerExample {
 
     public static void main(String[] args) {
 
-        // 모든 스레드의 예외에 대한 기본 핸들러 설정
+        // 모든 스레드의 예외에 대한 기본 핸들러 설정(전역 설정)
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
