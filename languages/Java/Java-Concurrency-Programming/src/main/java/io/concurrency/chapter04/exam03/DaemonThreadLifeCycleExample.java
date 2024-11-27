@@ -23,7 +23,7 @@ public class DaemonThreadLifeCycleExample {
         });
 
         daemonThread.setDaemon(true);
-        daemonThread.setDaemon(false);
+//        daemonThread.setDaemon(false);
 
         userThread.start();
         daemonThread.start();
