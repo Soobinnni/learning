@@ -9,7 +9,7 @@ public class ThreadGroupScopeExample {
         // 상위 그룹 스레드에서 하위 그룹의 최대 우선 순위를 변경
         Thread topGroupThread = new Thread(topGroup, () -> {
             System.out.println("상위 그룹 스레드에서 하위 그룹의 최대 우선 순위 변경 전: " + subGroup.getMaxPriority());
-            subGroup.setMaxPriority(7);
+            subGroup.setMaxPriority(3);
             System.out.println("상위 그룹 스레드에서 하위 그룹의 최대 우선 순위 변경 후: " + subGroup.getMaxPriority());
         }, "상위그룹스레드");
 
