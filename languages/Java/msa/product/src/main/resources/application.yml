@@ -1,27 +1,34 @@
 server:
-  port: 0  # 임시 포트, 이후 Config 서버 설정으로 덮어씌움
+  #   port: 0  # 임시 포트, 이후 Config 서버 설정으로 덮어씌움
+  port: 19092
 
 spring:
   profiles:
     active: local
   application:
     name: product-service
-  config:
-    # Spring Cloud Config Client가 Config Server에 자동으로 연결되도록 지시하는 표시자(indicator)
-    # 이 설정이 있으면 애플리케이션이 시작될 때 "configserver:" 지시자를 보고 Config Server로부터 설정을 가져와야 함을 인식
-    import: "configserver:"
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: config-server
+#  config:
+#    # Spring Cloud Config Client가 Config Server에 자동으로 연결되도록 지시하는 표시자(indicator)
+#    # 이 설정이 있으면 애플리케이션이 시작될 때 "configserver:" 지시자를 보고 Config Server로부터 설정을 가져와야 함을 인식
+#    import: "configserver:"
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: config-server
 
 management:
-  endpoints:
-    web:
-      exposure:
-        # actuator refresh 활성화
-        include: refresh
+  #  endpoints:
+  #    web:
+  #      exposure:
+  #        # actuator refresh 활성화
+  #        include: refresh
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
 
 eureka:
   client:
