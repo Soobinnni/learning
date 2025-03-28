@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+    kr.co.shortenurlservice: trace
+  config: classpath:logback-dev.xml
